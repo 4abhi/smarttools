@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boost Conversions Instantly | Smart Done-For-You Widgets</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5; /* indigo-600 */
+            --accent-color: #f59e0b;  /* amber-500 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .cta-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        /* Style for the 'Best Value' pricing card */
+        .best-value-card {
+            border: 3px solid var(--accent-color);
+            position: relative;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .best-value-card::before {
+            content: '🔥 Best Value';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            color: #1f2937;
+            padding: 2px 12px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Testimonial Placeholder Style */
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        .testimonial-icon {
+            font-size: 1.5rem; /* Larger icon */
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Success Message Modal -->
+    <div id="messageBox" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden flex items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full transform scale-100 transition-transform duration-300">
+            <div class="text-center">
+                <div class="text-4xl mb-4 text-indigo-600">🚀</div>
+                <h3 id="messageTitle" class="text-xl font-bold text-gray-900 mb-3">Action Completed!</h3>
+                <p id="messageText" class="text-gray-600 text-sm">Thank you for your interest! We've noted your request. A sales specialist will be in touch shortly.</p>
+                <button onclick="document.getElementById('messageBox').classList.add('hidden')" class="mt-5 w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-150 font-semibold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER/NAV (Sticky) -->
+    <header class="sticky top-0 bg-white shadow-md z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600">CONVERTER<span class="text-amber-500">PRO</span></div>
+            <a href="#pricing" class="hidden sm:block text-indigo-600 font-medium hover:text-indigo-800 transition">Pricing</a>
+        </div>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="bg-white pt-16 pb-24 text-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Headline -->
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
+                Boost Your Website Conversions <span class="text-indigo-600">Instantly</span> With Smart, Done-For-You Widgets
+            </h1>
+
+            <!-- Sub-Headline -->
+            <p class="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto mb-10">
+                Add 35+ powerful conversion tools to your website — chat widgets, review popups, social proof, booking tools, exit-intent popups, and more. <strong class="text-indigo-600">Fully installed and managed for you.</strong>
+            </p>
+
+            <!-- Primary CTA (UPDATED) -->
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                <button onclick="handleCTA('Free Widget', 'Get a FREE Widget + Conversion Audit')" class="cta-button bg-amber-500 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:bg-amber-600 transition duration-300 transform hover:scale-105">
+                    Get a FREE Widget + Conversion Audit
+                </button>
+                <!-- Secondary CTA -->
+                <button onclick="handleCTA('Demo Request', 'See a Live Demo on Your Website')" class="cta-button bg-white text-indigo-600 border-2 border-indigo-600 font-semibold text-lg px-8 py-4 rounded-xl hover:bg-indigo-50 transition duration-300">
+                    See a Live Demo on Your Website
+                </button>
+            </div>
+
+            <!-- Mini Trust Bar (UPDATED) -->
+            <div class="mt-8 text-sm text-gray-500 flex flex-wrap justify-center space-x-4">
+                <span>⭐ Trusted by <strong class="text-amber-500">3,400+</strong> Growing Businesses</span>
+                <span class="hidden sm:inline">|</span>
+                <span>🛠️ Works on all websites</span>
+                <span class="hidden sm:inline">|</span>
+                <span>⚡ No coding needed</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. BENEFITS STRIP -->
+    <section class="bg-indigo-700 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-white">
+                <!-- Benefit 1 -->
+                <div class="text-center">
+                    <div class="text-4xl font-extrabold text-amber-300">30–70%</div>
+                    <p class="mt-1 font-semibold">More Leads</p>
+                    <p class="text-sm text-indigo-200 mt-1">Add proven tools that convert visitors into customers.</p>
+                </div>
+                <!-- Benefit 2 -->
+                <div class="text-center">
+                    <div class="text-4xl font-extrabold text-amber-300">⚡</div>
+                    <p class="mt-1 font-semibold">Fast Installation</p>
+                    <p class="text-sm text-indigo-200 mt-1">We set everything up for you — same day.</p>
+                </div>
+                <!-- Benefit 3 -->
+                <div class="text-center">
+                    <div class="text-4xl font-extrabold text-amber-300">💻</div>
+                    <p class="mt-1 font-semibold">No Coding Required</p>
+                    <p class="text-sm text-indigo-200 mt-1">100% done-for-you setup & management.</p>
+                </div>
+                <!-- Benefit 4 -->
+                <div class="text-center">
+                    <div class="text-4xl font-extrabold text-amber-300">🌐</div>
+                    <p class="mt-1 font-semibold">Works on Any Website</p>
+                    <p class="text-sm text-indigo-200 mt-1">WordPress, Shopify, Wix, Webflow — everything.</p>
+                </div>
+                <!-- Benefit 5 -->
+                <div class="text-center col-span-2 md:col-span-1">
+                    <div class="text-4xl font-extrabold text-amber-300">💰</div>
+                    <p class="mt-1 font-semibold">Affordable Monthly Plans</p>
+                    <p class="text-sm text-indigo-200 mt-1">Powerful tools at small-business-friendly pricing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. PROBLEM SECTION -->
+    <section class="bg-gray-900 py-24 text-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl sm:text-5xl font-extrabold mb-4 section-title mx-auto">
+                Your Website Is Losing Leads Every Day — Here’s Why
+            </h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto mt-10 mb-12">
+                Most business websites in the US lack essential conversion elements that drive customers to take action.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 text-left">
+                <!-- Problem List 1 -->
+                <ul class="space-y-4">
+                    <li class="flex items-center text-lg"><span class="text-2xl mr-3 text-red-500">❌</span>No instant chat or quick contact option</li>
+                    <li class="flex items-center text-lg"><span class="text-2xl mr-3 text-red-500">❌</span>No social proof or review widgets</li>
+                    <li class="flex items-center text-lg"><span class="text-2xl mr-3 text-red-500">❌</span>No time-sensitive offers</li>
+                </ul>
+                <!-- Problem List 2 -->
+                <ul class="space-y-4">
+                    <li class="flex items-center text-lg"><span class="text-2xl mr-3 text-red-500">❌</span>No exit-intent popups to capture leaving visitors</li>
+                    <li class="flex items-center text-lg"><span class="text-2xl mr-3 text-red-500">❌</span>No booking or scheduling widgets</li>
+                    <li class="flex items-center text-lg"><span class="text-2xl mr-3 text-red-500">❌</span>No trust badges or engagement boosters</li>
+                </ul>
+            </div>
+
+            <p class="text-2xl font-semibold text-amber-500 mt-12">
+                Without these, visitors simply browse… and leave. <br> You deserve a website that actually converts.
+            </p>
+        </div>
+    </section>
+
+    <!-- 4. SOLUTION — WHAT YOU GET (ICONS UPDATED) -->
+    <section class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 section-title mx-auto">
+                Everything Your Website Needs to Turn Visitors Into Customers
+            </h2>
+
+            <p class="text-xl text-center text-gray-600 mb-12">
+                We install and manage a full suite of conversion-boosting widgets, including:
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Category 1: Lead Generation -->
+                <div class="bg-indigo-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <span class="text-3xl mr-3">📈</span>Lead Generation Widgets
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>— Contact forms</li>
+                        <li>— Click-to-call bars</li>
+                        <li>— Lead capture popups</li>
+                        <li>— Exit-intent popups</li>
+                    </ul>
+                </div>
+
+                <!-- Category 2: Social Proof & Review -->
+                <div class="bg-indigo-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <span class="text-3xl mr-3">🏆</span>Social Proof & Review Widgets
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>— Google Reviews</li>
+                        <li>— Yelp Reviews</li>
+                        <li>— Testimonial sliders</li>
+                        <li>— Live activity notifications</li>
+                    </ul>
+                </div>
+
+                <!-- Category 3: Chat & Engagement -->
+                <div class="bg-indigo-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <span class="text-3xl mr-3">📱</span>Chat & Engagement Tools
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>— WhatsApp chat</li>
+                        <li>— Messenger chat</li>
+                        <li>— AI chat widgets</li>
+                        <li>— FAQ widgets</li>
+                    </ul>
+                </div>
+
+                <!-- Category 4: Booking & Scheduling -->
+                <div class="bg-indigo-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <span class="text-3xl mr-3">🗓️</span>Booking & Scheduling
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>— Appointment widgets</li>
+                        <li>— Calendar popups</li>
+                        <li>— Service selection tools</li>
+                    </ul>
+                </div>
+
+                <!-- Category 5: E-commerce Tools -->
+                <div class="bg-indigo-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <span class="text-3xl mr-3">🛍️</span>E-commerce Tools
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>— Featured products</li>
+                        <li>— Recently viewed items</li>
+                        <li>— Cart boosters</li>
+                    </ul>
+                </div>
+
+                <!-- Category 6: Design & UX Enhancers -->
+                <div class="bg-indigo-50 p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <span class="text-3xl mr-3">🎨</span>Design & UX Enhancers
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>— Floating buttons</li>
+                        <li>— Sticky bars</li>
+                        <li>— Announcement banners</li>
+                        <li>— Scroll triggers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-xl text-gray-500 mb-6">
+                    ...and **35+ more tools**, all optimized for conversions.
+                </p>
+                <button onclick="handleCTA('View All Widgets', 'See All Widgets')" class="cta-button bg-indigo-600 text-white font-semibold text-lg px-8 py-3 rounded-xl shadow-lg hover:bg-indigo-700 transition duration-300">
+                    See All Widgets
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. BEFORE / AFTER IMPACT SECTION -->
+    <section class="bg-gray-100 py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 section-title mx-auto">
+                See the Difference Smart Widgets Make
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Before Card -->
+                <div class="bg-white p-8 rounded-xl shadow-2xl border-l-8 border-red-500">
+                    <h3 class="text-3xl font-bold text-red-500 mb-4 flex items-center">
+                        <span class="text-4xl mr-3">📉</span>Before
+                    </h3>
+                    <ul class="space-y-3 text-gray-600 text-lg">
+                        <li class="flex items-start"><span class="text-xl mr-2 text-red-500 mt-1">•</span>A static website with low engagement and high bounce rate.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-red-500 mt-1">•</span>Visitors browse, get no instant help, and leave without converting.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-red-500 mt-1">•</span>Zero social proof displayed.</li>
+                    </ul>
+                </div>
+
+                <!-- After Card -->
+                <div class="bg-white p-8 rounded-xl shadow-2xl border-l-8 border-green-500">
+                    <h3 class="text-3xl font-bold text-green-600 mb-4 flex items-center">
+                        <span class="text-4xl mr-3">📈</span>After
+                    </h3>
+                    <ul class="space-y-3 text-gray-600 text-lg">
+                        <li class="flex items-start"><span class="text-xl mr-2 text-green-600 mt-1">•</span>A dynamic, interactive site that captures leads, shows trust, and encourages action.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-green-600 mt-1">•</span>Instant chat and quick contact options available 24/7.</li>
+                        <li class="flex items-start"><span class="text-xl mr-2 text-green-600 mt-1">•</span>Real-time reviews and activity displayed.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Added a visual description placeholder, fulfilling the visual improvement suggestion -->
+            <div class="mt-12 text-center p-8 bg-white rounded-xl shadow-xl">
+                <h3 class="text-2xl font-bold text-indigo-700 mb-4">
+                    
+                </h3>
+                <p class="text-lg text-gray-600">
+                    Imagine the difference: a dull, static page transforms into a powerful lead-capturing machine, actively engaging every visitor.
+                </p>
+            </div>
+
+            <div class="mt-16 text-center">
+                <h3 class="text-3xl font-bold text-gray-900 mb-8">Real improvements our clients see:</h3>
+                <div class="grid sm:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl font-extrabold text-indigo-600">+42%</p>
+                        <p class="text-gray-600 mt-2 font-medium">Increase in form submissions</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl font-extrabold text-indigo-600">+65%</p>
+                        <p class="text-gray-600 mt-2 font-medium">More calls and chats</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl font-extrabold text-indigo-600">⬆️</p>
+                        <p class="text-gray-600 mt-2 font-medium">Higher engagement & visit time</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <p class="text-4xl font-extrabold text-indigo-600">🎯</p>
+                        <p class="text-gray-600 mt-2 font-medium">Better lead quality</p>
+                    </div>
+                </div>
+                <p class="text-xl font-semibold text-gray-800 mt-10">
+                    Your website starts working for you — <strong class="text-indigo-600">not against you.</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. HOW IT WORKS — SIMPLE 3-STEP PROCESS (TEXT SIMPLIFIED) -->
+    <section class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl sm:text-5xl font-extrabold mb-16 section-title mx-auto">
+                Simple 3-Step Process: Results First
+            </h2>
+
+            <div class="flex flex-col md:flex-row justify-center items-stretch gap-10">
+                <!-- Step 1 (Updated) -->
+                <div class="flex-1 p-6 border-2 border-indigo-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 relative">
+                    <div class="text-4xl font-extrabold text-indigo-600 bg-white border-4 border-indigo-600 rounded-full w-14 h-14 flex items-center justify-center mx-auto -mt-10 mb-4">1</div>
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-3">Instant Website Audit</h3>
+                    <p class="text-gray-600">We analyze your site and send a personalized plan to boost conversions.</p>
+                </div>
+
+                <!-- Arrow/Separator -->
+                <div class="hidden md:flex items-center justify-center text-3xl text-indigo-300">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </div>
+
+                <!-- Step 2 (Updated) -->
+                <div class="flex-1 p-6 border-2 border-indigo-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 relative">
+                    <div class="text-4xl font-extrabold text-indigo-600 bg-white border-4 border-indigo-600 rounded-full w-14 h-14 flex items-center justify-center mx-auto -mt-10 mb-4">2</div>
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-3">LIVE Free Widget Installation</h3>
+                    <p class="text-gray-600">We install a high-impact widget on your site to **prove results**. No payment, no obligation.</p>
+                </div>
+
+                <!-- Arrow/Separator -->
+                <div class="hidden md:flex items-center justify-center text-3xl text-indigo-300">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </div>
+
+                <!-- Step 3 (Updated) -->
+                <div class="flex-1 p-6 border-2 border-indigo-200 rounded-xl shadow-md hover:shadow-lg transition duration-300 relative">
+                    <div class="text-4xl font-extrabold text-indigo-600 bg-white border-4 border-indigo-600 rounded-full w-14 h-14 flex items-center justify-center mx-auto -mt-10 mb-4">3</div>
+                    <h3 class="text-2xl font-bold text-indigo-600 mb-3">Pay Only Upon Full Activation</h3>
+                    <p class="text-gray-600">Once you see the free results, we activate the full widget suite and begin monthly optimization.</p>
+                </div>
+            </div>
+
+            <button onclick="handleCTA('Free Installation', 'Start Your Free Widget Installation')" class="cta-button mt-16 bg-amber-500 text-white font-bold text-xl px-10 py-4 rounded-xl shadow-lg hover:bg-amber-600 transition duration-300 transform hover:scale-105">
+                Start Your FREE Widget + Conversion Audit
+            </button>
+        </div>
+    </section>
+
+    <!-- 7. PRICING PLANS (UPDATED with Value statement) -->
+    <section id="pricing" class="bg-gray-900 py-24 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl sm:text-5xl font-extrabold mb-16 section-title mx-auto text-white after:bg-amber-500">
+                Simple, Transparent Pricing — No Contracts
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="bg-gray-800 p-8 rounded-xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-indigo-300 mb-2">⭐ Starter</h3>
+                        <p class="text-gray-400 mb-6">Perfect for small websites</p>
+                        <p class="text-5xl font-extrabold mb-8">$29<span class="text-2xl font-normal text-gray-400">/month</span></p>
+                        <ul class="space-y-3 text-left text-gray-300 mb-10">
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>10 essential widgets</li>
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Standard support</li>
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Free installation</li>
+                            <li class="flex items-center text-gray-600"><span class="text-gray-600 mr-2">―</span>Monthly optimization</li>
+                            <li class="flex items-center text-gray-600"><span class="text-gray-600 mr-2">―</span>Dedicated support</li>
+                        </ul>
+                    </div>
+                    <button onclick="handleCTA('Starter Plan', 'Get Started — Try a Free Widget First')" class="cta-button mt-4 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition duration-300">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Growth Plan (Best Value - UPDATED with Savings) -->
+                <div class="bg-white p-8 rounded-xl shadow-2xl best-value-card flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-indigo-600 mb-2">Growth</h3>
+                        <p class="text-gray-600 mb-2">Great for growing businesses</p>
+                        <p class="text-sm font-semibold text-amber-600 mb-4">Save 40% vs. Agency Retainers</p>
+                        <p class="text-6xl font-extrabold text-gray-900 mb-8">$49<span class="text-2xl font-normal text-gray-600">/month</span></p>
+                        <ul class="space-y-3 text-left text-gray-700 mb-10">
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span><strong class="font-extrabold">35 widgets</strong> (Full Suite)</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span>Customization included</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span>Priority support</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span><strong class="font-extrabold">Monthly optimization</strong></li>
+                            <li class="flex items-center text-gray-400"><span class="text-gray-400 mr-2">―</span>Advanced lead tracking</li>
+                        </ul>
+                    </div>
+                    <button onclick="handleCTA('Growth Plan', 'Get Started — Try a Free Widget First')" class="cta-button mt-4 w-full bg-amber-500 text-gray-900 font-bold py-3 rounded-lg hover:bg-amber-600 transition duration-300 shadow-lg">
+                        Get Started — Try a Free Widget First
+                    </button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-gray-800 p-8 rounded-xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-indigo-300 mb-2">🚀 Pro</h3>
+                        <p class="text-gray-400 mb-6">Ideal for businesses who want everything</p>
+                        <p class="text-5xl font-extrabold mb-8">$99<span class="text-2xl font-normal text-gray-400">/month</span></p>
+                        <ul class="space-y-3 text-left text-gray-300 mb-10">
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Unlimited widgets</li>
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Advanced customization</li>
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Dedicated support</li>
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Advanced lead tracking</li>
+                            <li class="flex items-center"><span class="text-green-400 mr-2">✓</span>Free premium upgrades</li>
+                        </ul>
+                    </div>
+                    <button onclick="handleCTA('Pro Plan', 'Get Started — Try a Free Widget First')" class="cta-button mt-4 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 transition duration-300">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. TESTIMONIALS & SOCIAL PROOF (VISUALLY ENHANCED) -->
+    <section class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 section-title mx-auto">
+                What Businesses Are Saying
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                    <p class="text-4xl text-indigo-500 mb-4">“</p>
+                    <p class="text-lg italic text-gray-700 mb-6">
+                        “In the first week, we saw a **52% increase in calls and messages** from our website. This is the easiest upgrade we’ve ever done.”
+                    </p>
+                    <div class="testimonial-author">
+                        <span class="testimonial-icon">💼</span>
+                        <div>
+                            <p class="font-bold text-gray-900">— Michael S.</p>
+                            <p class="text-sm text-gray-500">Real Estate Broker, Texas</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                    <p class="text-4xl text-indigo-500 mb-4">“</p>
+                    <p class="text-lg italic text-gray-700 mb-6">
+                        “The popup + review widget combo **doubled our appointment bookings**. Highly recommended.”
+                    </p>
+                    <div class="testimonial-author">
+                        <span class="testimonial-icon">💼</span>
+                        <div>
+                            <p class="font-bold text-gray-900">— Dr. Leah M.</p>
+                            <p class="text-sm text-gray-500">Dental Clinic, Florida</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-lg border-t-4 border-indigo-500">
+                    <p class="text-4xl text-indigo-500 mb-4">“</p>
+                    <p class="text-lg italic text-gray-700 mb-6">
+                        “Finally a service that installs, customizes, and manages everything for us. **Worth every dollar.**”
+                    </p>
+                    <div class="testimonial-author">
+                        <span class="testimonial-icon">💼</span>
+                        <div>
+                            <p class="font-bold text-gray-900">— Susan L.</p>
+                            <p class="text-sm text-gray-500">Salon Owner, California</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. DEMO SECTION -->
+    <section class="bg-indigo-600 py-16 text-white text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-bold mb-4">See Widgets Live in Action</h3>
+            <p class="text-xl opacity-90 mb-8">
+                Preview how each widget looks on a real website — chat, popups, reviews, social feeds, booking tools, and more.
+            </p>
+            <button onclick="handleCTA('Show Demo', 'Show Me the Demo')" class="cta-button bg-amber-500 text-gray-900 font-bold text-lg px-8 py-3 rounded-xl shadow-lg hover:bg-amber-600 transition duration-300">
+                Show Me the Demo
+            </button>
+        </div>
+    </section>
+
+    <!-- 10. GUARANTEE SECTION -->
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center border-4 border-indigo-200 p-8 rounded-xl">
+            <h3 class="text-3xl font-extrabold text-indigo-600 mb-6">
+                100% Risk-Free. Zero Commitment.
+            </h3>
+            <div class="flex flex-wrap justify-center gap-6 text-lg text-gray-700 font-medium">
+                <span class="flex items-center"><span class="text-green-500 text-xl mr-2">✓</span>First widget installed FREE</span>
+                <span class="flex items-center"><span class="text-green-500 text-xl mr-2">✓</span>Cancel anytime</span>
+                <span class="flex items-center"><span class="text-green-500 text-xl mr-2">✓</span>No contracts or long-term commitments</span>
+                <span class="flex items-center"><span class="text-green-500 text-xl mr-2">✓</span>14-day improvement promise</span>
+            </div>
+            <p class="text-xl font-semibold text-gray-800 mt-6">
+                If you don’t see results, we install more tools — <strong class="text-indigo-600">at no extra cost.</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- 11. FAQ SECTION -->
+    <section class="bg-gray-100 py-24">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-center mb-16 section-title mx-auto">
+                Frequently Asked Questions
+            </h2>
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-600 mb-2">Does this work on my website?</h3>
+                    <p class="text-gray-700">Yes — WordPress, Shopify, Wix, Webflow, Squarespace, custom HTML, anything.</p>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-600 mb-2">How fast can you install the widgets?</h3>
+                    <p class="text-gray-700">Most installs are completed the same day.</p>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-600 mb-2">Do I need coding knowledge?</h3>
+                    <p class="text-gray-700">No — everything is 100% done for you.</p>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-600 mb-2">Will these slow down my website?</h3>
+                    <p class="text-gray-700">No — we use optimized, lightweight scripts.</p>
+                </div>
+                <!-- FAQ Item 5 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-600 mb-2">Can I request custom widgets?</h3>
+                    <p class="text-gray-700">Yes — custom design and branding are available on Growth & Pro plans.</p>
+                </div>
+                <!-- FAQ Item 6 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-600 mb-2">Do you offer support?</h3>
+                    <p class="text-gray-700">Yes, full support included for all plans.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. FINAL CTA SECTION (UPDATED) -->
+    <section class="bg-indigo-700 py-20 text-white text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl sm:text-5xl font-extrabold mb-6">
+                Ready to Turn Your Website Into a Lead-Generating Machine?
+            </h2>
+            <p class="text-xl opacity-90 mb-10">
+                Get your first widget installed free — no risk, no credit card, instant impact.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <!-- Primary CTA -->
+                <button onclick="handleCTA('Final CTA Free Install', 'Start FREE Widget + Conversion Audit')" class="cta-button bg-amber-500 text-gray-900 font-bold text-xl px-10 py-4 rounded-xl shadow-xl hover:bg-amber-600 transition duration-300 transform hover:scale-105">
+                    Start FREE Widget + Conversion Audit
+                </button>
+                <!-- Secondary CTA -->
+                <button onclick="handleCTA('Final CTA Demo', 'See Widgets Demo')" class="cta-button bg-white text-indigo-700 border-2 border-white font-semibold text-xl px-10 py-4 rounded-xl hover:bg-indigo-50 transition duration-300">
+                    See Widgets Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (UPDATED with Security) -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-sm mb-1">&copy; 2025 CONVERTERPRO. All rights reserved.</p>
+            <p class="text-xs text-gray-400 font-semibold mb-2">
+                ✅ 100% GDPR Compliant | Lightning-Fast & Secure
+            </p>
+            <p class="text-xs text-gray-500">Conversion tools installed and managed for you.</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * Simple function to display a custom message box instead of using alert()
+         * @param {string} title The title for the message box.
+         * @param {string} buttonText The text from the button that was clicked.
+         */
+        function handleCTA(title, buttonText) {
+            const messageBox = document.getElementById('messageBox');
+            const messageTitle = document.getElementById('messageTitle');
+            const messageText = document.getElementById('messageText');
+
+            messageTitle.textContent = buttonText;
+            messageText.innerHTML = `You clicked the "${buttonText}" button. This is where your sign-up form or demo link would appear. For now, a specialist will be in touch!`;
+            messageBox.classList.remove('hidden');
+
+            // Set timeout for accessibility and auto-close (optional)
+            // setTimeout(() => { messageBox.classList.add('hidden'); }, 5000);
+        }
+
+        // Initialize script logic if needed, although simple CTAs are handled inline.
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Landing page loaded and ready.');
+        });
+    </script>
+
+</body>
+</html>
