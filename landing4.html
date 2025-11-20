@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechDeck Labs | White-Label Agency Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        },
+                        accent: {
+                            500: '#f97316', // Orange for urgency
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom adjustments for clean UI */
+        .hero-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+        }
+        .clip-bottom {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        .faq-answer {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .faq-answer.active {
+            max-height: 200px;
+            opacity: 1;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 antialiased bg-slate-50">
+
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-brand-600 text-2xl"></i>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">TechDeck Labs</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-slate-600 hover:text-brand-600 font-medium">Services</a>
+                    <a href="#how-it-works" class="text-slate-600 hover:text-brand-600 font-medium">Process</a>
+                    <a href="#pricing" class="text-slate-600 hover:text-brand-600 font-medium">Pricing</a>
+                    <a href="#contact" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2 rounded-full font-semibold transition shadow-md">
+                        Test Project
+                    </a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero-bg text-white pt-32 pb-20 lg:pt-40 lg:pb-32 relative overflow-hidden">
+        <!-- Abstract background shapes -->
+        <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-brand-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full text-sm font-medium border border-white/20 text-brand-100">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        Accepting New Agency Partners
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+                        Ship More Client Websites — <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">Without Hiring More Staff</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Your on-demand white-label Webflow, WordPress & Shopify development + design team.
+                        <br class="hidden md:block">
+                        <span class="font-semibold text-white">24–48h turnaround</span>, zero hiring overhead, fully branded delivery.
+                    </p>
+                   
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <button class="bg-accent-600 hover:bg-accent-500 text-white text-lg px-8 py-4 rounded-lg font-bold shadow-lg shadow-accent-600/30 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                            Start a Free Test Project <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button class="bg-transparent border-2 border-white/20 hover:bg-white/10 text-white text-lg px-8 py-4 rounded-lg font-semibold transition flex items-center justify-center">
+                            View Pricing & Models
+                        </button>
+                    </div>
+
+
+                    <!-- Microproof -->
+                    <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-sm text-slate-400">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-brand-900 flex items-center justify-center text-xs text-slate-900 font-bold">AG</div>
+                            <div class="w-8 h-8 rounded-full bg-slate-300 border-2 border-brand-900 flex items-center justify-center text-xs text-slate-900 font-bold">NY</div>
+                            <div class="w-8 h-8 rounded-full bg-slate-400 border-2 border-brand-900 flex items-center justify-center text-xs text-slate-900 font-bold">UK</div>
+                        </div>
+                        <p>Trusted by agencies in US, UK & SG • 100+ websites delivered • 24–48h SLA</p>
+                    </div>
+                </div>
+
+
+                <!-- Right Visual -->
+                <div class="hidden lg:block relative">
+                    <div class="relative rounded-xl bg-slate-900/50 backdrop-blur-sm border border-white/10 p-6 shadow-2xl transform rotate-1 hover:rotate-0 transition duration-500">
+                        <!-- Mock UI Interface representation -->
+                        <div class="flex items-center gap-2 mb-4 border-b border-white/10 pb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="ml-auto text-xs text-slate-400">dashboard.techdeck.io</div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between bg-white/5 p-3 rounded border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-green-500/20 p-2 rounded text-green-400"><i class="fa-solid fa-check"></i></div>
+                                    <div>
+                                        <div class="text-sm font-bold text-white">Landing Page Dev</div>
+                                        <div class="text-xs text-slate-400">Client: Apex Digital</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold bg-green-500 text-slate-900 px-2 py-1 rounded">DELIVERED</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-white/5 p-3 rounded border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-blue-500/20 p-2 rounded text-blue-400"><i class="fa-solid fa-code"></i></div>
+                                    <div>
+                                        <div class="text-sm font-bold text-white">Shopify Migration</div>
+                                        <div class="text-xs text-slate-400">Client: EcomGrow</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold bg-blue-500 text-white px-2 py-1 rounded">IN PROGRESS</span>
+                            </div>
+                            <div class="h-32 bg-white/5 rounded border border-white/10 flex items-center justify-center text-slate-500 text-sm">
+                                <i class="fa-solid fa-rocket mr-2"></i> Your Agency Projects Here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 2: PAIN POINTS -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">When Deadlines Pile Up, Margins Drop. <br class="hidden md:block"/><span class="text-red-600">We Fix That.</span></h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center text-red-600 text-2xl mb-6">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Overflow Work</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Client projects stacking faster than your team can deliver. You're stuck turning down new business because you're at capacity.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center text-red-600 text-2xl mb-6">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Unpredictable Resourcing</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Hiring full-time devs/designers for short-term spikes is expensive. Freelancers are flaky. You need stability without the overhead.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center text-red-600 text-2xl mb-6">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Missed Deadlines</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Overworked in-house teams lead to delayed sites, bugs, and unhappy clients. Missed deadlines = lost deals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 3: POSITIONING -->
+    <section class="bg-slate-900 py-20">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="text-2xl md:text-3xl font-medium text-white leading-normal mb-10">
+                "TechDeck Labs is your <span class="text-brand-400 font-bold">white-label dev + design partner</span> that jumps in exactly when your agency needs extra hands — and disappears when you don’t."
+            </p>
+            <a href="#how-it-works" class="inline-block bg-white text-slate-900 hover:bg-slate-100 px-6 py-3 rounded-full font-bold transition">
+                See How It Works
+            </a>
+        </div>
+    </section>
+
+
+    <!-- SECTION 4: SERVICES -->
+    <section id="services" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Everything Your Agency Needs to Deliver Projects on Time</h2>
+                <p class="text-slate-600">We handle the execution. You handle the client.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Service 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div class="text-brand-600 text-3xl mb-4"><i class="fa-solid fa-code"></i></div>
+                    <h3 class="text-lg font-bold mb-3">Web Development</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Webflow, WordPress, Shopify</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Full builds & Redesigns</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Custom integrations</li>
+                    </ul>
+                </div>
+                <!-- Service 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div class="text-brand-600 text-3xl mb-4"><i class="fa-solid fa-pen-ruler"></i></div>
+                    <h3 class="text-lg font-bold mb-3">UI/UX Design</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Landing pages</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Website design systems</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Figma prototypes</li>
+                    </ul>
+                </div>
+                <!-- Service 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div class="text-brand-600 text-3xl mb-4"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <h3 class="text-lg font-bold mb-3">Maintenance</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Security updates</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Performance optimization</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Bug fixes (24h SLA)</li>
+                    </ul>
+                </div>
+                <!-- Service 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div class="text-brand-600 text-3xl mb-4"><i class="fa-solid fa-user-secret"></i></div>
+                    <h3 class="text-lg font-bold mb-3">White-Label Partner</h3>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> NDA guaranteed</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Branded deliverables</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Optional client comms</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 5: HOW IT WORKS -->
+    <section id="how-it-works" class="py-20 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">A Simple, Zero-Friction Partnership</h2>
+            </div>
+
+
+            <div class="relative">
+                <!-- Timeline Line (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 -translate-y-1/2 z-0"></div>
+               
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                    <!-- Step 1 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-lg text-center">
+                        <div class="w-12 h-12 bg-brand-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 ring-8 ring-white">1</div>
+                        <h4 class="font-bold text-lg mb-2">Share Brief</h4>
+                        <p class="text-sm text-slate-600">Share your project brief or book a quick 10-min call.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-lg text-center">
+                        <div class="w-12 h-12 bg-brand-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 ring-8 ring-white">2</div>
+                        <h4 class="font-bold text-lg mb-2">Pod Assigned</h4>
+                        <p class="text-sm text-slate-600">We assign a dedicated dev/design pod to your agency.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-lg text-center">
+                        <div class="w-12 h-12 bg-brand-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 ring-8 ring-white">3</div>
+                        <h4 class="font-bold text-lg mb-2">Test Project</h4>
+                        <p class="text-sm text-slate-600">Start with a free small test project to verify quality.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-lg text-center">
+                        <div class="w-12 h-12 bg-brand-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 ring-8 ring-white">4</div>
+                        <h4 class="font-bold text-lg mb-2">Scale Up</h4>
+                        <p class="text-sm text-slate-600">Scale hours up or down monthly based on your load.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="text-center mt-12">
+                <a href="#contact" class="bg-brand-600 hover:bg-brand-700 text-white px-8 py-4 rounded-lg font-bold shadow-md transition">
+                    Start Your Test Project
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 6: SOCIAL PROOF -->
+    <section class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6">What Agencies Say About Working With Us</h2>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border-l-4 border-brand-600">
+                        <div class="text-sm font-bold text-brand-600 uppercase tracking-wide mb-2">Case Study</div>
+                        <h3 class="text-2xl font-bold mb-4">"3 Shopify Stores Delivered in 4 Weeks"</h3>
+                        <p class="text-slate-600 mb-6">
+                            A US-based digital agency needed urgent delivery during a peak period. We stepped in as their silent backend partner.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> <span class="text-sm font-medium">Rebuilt 3 stores</span></div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> <span class="text-sm font-medium">Daily updates</span></div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> <span class="text-sm font-medium">Saved 30% time</span></div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-green-500"></i> <span class="text-sm font-medium">100% White-label</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex text-yellow-400 mb-2"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-slate-700 italic mb-3">“Feels like our in-house team — reliable, fast, zero hassle. The onboarding was incredibly smooth.”</p>
+                        <p class="text-sm font-bold text-slate-900">— Sarah J., Founder @ CreativeFlow</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex text-yellow-400 mb-2"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-slate-700 italic mb-3">“Their 24–48h turnaround saved two of our client deadlines. Essential partner for Q4.”</p>
+                        <p class="text-sm font-bold text-slate-900">— Mike T., PM @ ScaleUp Digital</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex text-yellow-400 mb-2"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="text-slate-700 italic mb-3">“White-label process is flawless. Clients never knew we outsourced the development.”</p>
+                        <p class="text-sm font-bold text-slate-900">— Jessica L., Director @ Artistry</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 7: COMPARISON -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Why Agencies Choose Us</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="p-4 border-b-2 border-slate-100 w-1/3 text-slate-500 font-medium">Feature</th>
+                            <th class="p-4 border-b-2 border-brand-500 bg-brand-50 w-1/4 text-brand-700 font-bold text-lg rounded-t-lg">TechDeck Labs</th>
+                            <th class="p-4 border-b-2 border-slate-100 w-1/5 text-slate-700 font-semibold">Other Agencies</th>
+                            <th class="p-4 border-b-2 border-slate-100 w-1/5 text-slate-700 font-semibold">Freelancers</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm md:text-base">
+                        <tr>
+                            <td class="p-4 border-b border-slate-100 font-medium">White-label Delivery</td>
+                            <td class="p-4 border-b border-slate-100 bg-brand-50/30 text-brand-700 font-bold"><i class="fa-solid fa-check mr-2"></i> Yes</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-600"><i class="fa-solid fa-check mr-2"></i> Yes</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-400"><i class="fa-solid fa-xmark mr-2"></i> No</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-100 font-medium">Turnaround Time</td>
+                            <td class="p-4 border-b border-slate-100 bg-brand-50/30 text-brand-700 font-bold"><i class="fa-solid fa-bolt mr-2"></i> 24–48h</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-600">Varies</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-400">No SLA</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-100 font-medium">Contract Terms</td>
+                            <td class="p-4 border-b border-slate-100 bg-brand-50/30 text-brand-700 font-bold"><i class="fa-solid fa-unlock mr-2"></i> Flexible</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-600">3-6 Months</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-600">Flexible</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-100 font-medium">Team Consistency</td>
+                            <td class="p-4 border-b border-slate-100 bg-brand-50/30 text-brand-700 font-bold"><i class="fa-solid fa-users mr-2"></i> Dedicated</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-600">Sometimes</td>
+                            <td class="p-4 border-b border-slate-100 text-slate-400">Changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-8">
+                <a href="#pricing" class="text-brand-600 font-bold hover:text-brand-800 underline">Compare Pricing Models</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 8: PRICING -->
+    <section id="pricing" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Simple, Predictable Pricing</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Starter -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 hover:border-brand-300 transition relative">
+                    <h3 class="text-xl font-bold text-slate-900">Starter</h3>
+                    <p class="text-sm text-slate-500 mb-6">Perfect to try us once.</p>
+                    <div class="text-4xl font-bold text-slate-900 mb-6">Test Project</div>
+                    <ul class="space-y-3 mb-8 text-slate-600 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> 1 Small website/LP</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> UI/UX + Dev</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> White-label delivery</li>
+                    </ul>
+                    <a href="#contact" class="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold py-3 rounded-lg transition">Start Test Project</a>
+                </div>
+               
+                <!-- Growth -->
+                <div class="bg-white rounded-2xl shadow-xl border-2 border-brand-500 p-8 relative transform md:-translate-y-4">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Most Popular</div>
+                    <h3 class="text-xl font-bold text-slate-900">Growth</h3>
+                    <p class="text-sm text-slate-500 mb-6">Flexible scaling.</p>
+                    <div class="text-4xl font-bold text-slate-900 mb-6">Hourly Bucket</div>
+                    <ul class="space-y-3 mb-8 text-slate-600 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> 40–80 hours/month</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> Dev + Design included</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> Priority support</li>
+                    </ul>
+                    <a href="#contact" class="block w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-lg transition">Get Started</a>
+                </div>
+
+
+                <!-- Agency Partner -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 hover:border-brand-300 transition">
+                    <h3 class="text-xl font-bold text-slate-900">Agency Partner</h3>
+                    <p class="text-sm text-slate-500 mb-6">For ongoing clients.</p>
+                    <div class="text-4xl font-bold text-slate-900 mb-6">Retainer</div>
+                    <ul class="space-y-3 mb-8 text-slate-600 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> Dedicated full-time pod</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> 24–48h SLA Guaranteed</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-500"></i> Monthly sprints</li>
+                    </ul>
+                    <a href="#contact" class="block w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold py-3 rounded-lg transition">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 9: LEAD MAGNET -->
+    <section class="py-20 bg-indigo-900 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-indigo-800/50 rounded-3xl p-8 md:p-12 border border-indigo-700 flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <div class="inline-block bg-accent-500 text-white text-xs font-bold px-3 py-1 rounded mb-4">FREE TOOL</div>
+                    <h2 class="text-3xl font-bold mb-4">Free Website Health & Conversion Audit</h2>
+                    <p class="text-indigo-200 mb-6">
+                        We’ll audit any of your client websites and send a white-labeled PDF you can present in your next pitch. No strings attached.
+                    </p>
+                    <button class="bg-white text-indigo-900 hover:bg-indigo-50 font-bold px-8 py-3 rounded-lg transition">
+                        Request Free Audit
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3">
+                    <!-- Visual representation of a PDF/Report -->
+                    <div class="aspect-[3/4] bg-white rounded shadow-2xl transform rotate-3 border-4 border-indigo-300/30 flex flex-col items-center justify-center p-4">
+                        <i class="fa-solid fa-file-pdf text-red-500 text-5xl mb-4"></i>
+                        <div class="w-full h-2 bg-slate-200 mb-2"></div>
+                        <div class="w-2/3 h-2 bg-slate-200 mb-2"></div>
+                        <div class="w-full h-2 bg-slate-200"></div>
+                        <p class="mt-4 text-xs text-slate-400 font-bold">AUDIT REPORT</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 10: FAQ -->
+    <section class="py-20 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-4">
+                <!-- FAQ Item -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden cursor-pointer faq-item">
+                    <div class="bg-slate-50 p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900">Are you fully white-label?</h3>
+                        <i class="fa-solid fa-chevron-down text-slate-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer bg-white px-4">
+                        <p class="py-4 text-slate-600">Yes — we deliver under your brand, with NDA. Your clients will never know we exist unless you want them to.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden cursor-pointer faq-item">
+                    <div class="bg-slate-50 p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900">How fast can you start?</h3>
+                        <i class="fa-solid fa-chevron-down text-slate-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer bg-white px-4">
+                        <p class="py-4 text-slate-600">We typically start within 24–72 hours. Rush 24–48h service is available for urgent client deadlines.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden cursor-pointer faq-item">
+                    <div class="bg-slate-50 p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900">Do you work with US-based agencies only?</h3>
+                        <i class="fa-solid fa-chevron-down text-slate-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer bg-white px-4">
+                        <p class="py-4 text-slate-600">Mostly, but we also support agencies in the UK, Australia, and Singapore. Our time zones are optimized for overlap.</p>
+                    </div>
+                </div>
+                <!-- FAQ Item -->
+                <div class="border border-slate-200 rounded-lg overflow-hidden cursor-pointer faq-item">
+                    <div class="bg-slate-50 p-4 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900">What platforms do you support?</h3>
+                        <i class="fa-solid fa-chevron-down text-slate-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer bg-white px-4">
+                        <p class="py-4 text-slate-600">We specialize in Webflow, WordPress, and Shopify. We also handle custom React/Node development for specific needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SECTION 11: FINAL CTA -->
+    <section id="contact" class="py-24 bg-slate-900 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-20"></div>
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-8 leading-tight">
+                Ready to Scale Your Agency <br/><span class="text-brand-400">Without Increasing Headcount?</span>
+            </h2>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-accent-600 hover:bg-accent-500 text-white text-xl px-10 py-4 rounded-lg font-bold shadow-lg transform hover:scale-105 transition duration-200">
+                    👉 Start a Free Test Project
+                </button>
+                <button class="bg-transparent border-2 border-white/20 hover:bg-white/10 text-white text-xl px-10 py-4 rounded-lg font-bold transition">
+                    Book a 15-Min Call
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-white font-bold text-lg">TechDeck Labs</span>
+                <p class="text-sm mt-1">© 2023 TechDeck Labs. All rights reserved.</p>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white transition">Privacy</a>
+                <a href="#" class="hover:text-white transition">Terms</a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Interactive Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // FAQ Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+           
+            faqItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const answer = item.querySelector('.faq-answer');
+                    const isOpen = item.classList.contains('active');
+                   
+                    // Close all others
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').classList.remove('active');
+                    });
+
+
+                    // Toggle current
+                    if (!isOpen) {
+                        item.classList.add('active');
+                        answer.classList.add('active');
+                    }
+                });
+            });
+
+
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            // Note: Simple implementation, in a real app we'd toggle a hidden menu div
+            mobileBtn.addEventListener('click', () => {
+                alert('Mobile menu functionality would open here!');
+            });
+        });
+    </script>
+</body>
+</html>
+
