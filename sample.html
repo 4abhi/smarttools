@@ -1,0 +1,329 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Menu, 
+  X, 
+  Search,
+  ShoppingBag,
+  ChevronRight,
+  ArrowRight,
+  Globe,
+  ArrowUpRight
+} from 'lucide-react';
+
+const VitalUtilityLanding = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    setIsMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className="font-sans text-[#111] bg-white antialiased selection:bg-gray-200">
+      
+      {/* Top Utility Bar */}
+      <div className="bg-[#f5f5f5] text-xs font-medium text-center py-2 px-4 tracking-normal">
+        <span className="font-bold">New Client Openings:</span> Limited slots available for Q4 2025. <a href="#" className="underline font-bold ml-1 cursor-pointer hover:text-gray-600">Apply Now</a>
+      </div>
+
+      {/* Navigation */}
+      <nav 
+        className={`w-full bg-white transition-all duration-300 relative z-50 ${
+          isScrolled ? 'fixed top-0 shadow-sm' : 'relative'
+        }`}
+      >
+        <div className="max-w-[1440px] mx-auto px-4 md:px-12 h-[60px] flex justify-between items-center">
+          {/* LOGO */}
+          <div className="flex-shrink-0 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+             <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M0 0H12L28 24H14L0 0Z" fill="#111"/>
+               <path d="M42 0H54L38 24H26L42 0Z" fill="#111"/>
+             </svg>
+          </div>
+
+          {/* CTA: Book Call (Right) */}
+          <div className="flex items-center gap-4">
+             <button className="hidden md:block bg-[#111] text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-800 transition-colors">
+               Book a Strategy Call
+             </button>
+             <button 
+              className="md:hidden text-[#111] p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 top-[96px] bg-white z-40 p-8 flex flex-col gap-6 animate-in fade-in slide-in-from-right-10 overflow-y-auto">
+             <div className="flex flex-col gap-4 text-2xl font-medium">
+              <button onClick={() => scrollToSection('services')} className="text-left py-4 border-b border-gray-100 flex justify-between group">What You Get <ChevronRight/></button>
+              <button onClick={() => scrollToSection('proof')} className="text-left py-4 border-b border-gray-100 flex justify-between group">Proof <ChevronRight/></button>
+              <button onClick={() => scrollToSection('process')} className="text-left py-4 border-b border-gray-100 flex justify-between group">How It Works <ChevronRight/></button>
+              <button onClick={() => scrollToSection('cases')} className="text-left py-4 border-b border-gray-100 flex justify-between group">Case Studies <ChevronRight/></button>
+            </div>
+            <button className="w-full bg-black text-white py-4 rounded-full font-bold mt-4">Book a Strategy Call</button>
+          </div>
+        )}
+      </nav>
+
+      {/* 1. HERO SECTION */}
+      <section className="w-full mb-2 px-0 md:px-6 lg:px-12 mt-2">
+        <div className="relative w-full h-[600px] md:h-[80vh] flex flex-col justify-end items-start text-left pb-12 md:pb-16 overflow-hidden group cursor-pointer rounded-xl md:rounded-3xl">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+             <img 
+               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80" 
+               alt="Executive Meeting" 
+               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+          </div>
+          
+          <div className="relative z-10 px-6 md:px-12 max-w-5xl">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-6 text-white">
+              Not an Agency.<br/>
+              A Chief Marketing Officer.
+            </h1>
+            <p className="text-white text-base md:text-xl font-medium mb-8 max-w-lg leading-relaxed">
+              Fractional CMO leadership for brands ready to scale.
+            </p>
+            <div className="flex gap-4">
+              <button className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors">
+                Book a Strategy Call
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. WHAT YOU GET WITH A CMO (4-Column Grid) */}
+      <section id="services" className="w-full max-w-[1440px] mx-auto px-6 md:px-12 mb-24 mt-24">
+        <div className="mb-10">
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-2">What You Get With a CMO</h2>
+          <p className="text-lg text-gray-600 font-medium">Strategic leadership. Clear direction. Real accountability.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { 
+              title: "Strategy That Drives Revenue", 
+              desc: "Marketing aligned to pipeline, performance, and business goals.",
+              img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
+            },
+            { 
+              title: "Leadership & Team Direction", 
+              desc: "A CMO who guides your team, vendors, and partners toward growth.",
+              img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80"
+            },
+            { 
+              title: "Data-Driven Decisions", 
+              desc: "Clear KPIs, dashboards, and insights that keep your marketing on track.",
+              img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80"
+            },
+            { 
+              title: "Execution That Works", 
+              desc: "Messaging, campaigns, and systems built to convert.",
+              img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80"
+            }
+          ].map((item, i) => (
+            <div key={i} className="relative aspect-[3/4] group cursor-pointer overflow-hidden rounded-xl bg-gray-100">
+               <img 
+                 src={item.img} 
+                 alt={item.title} 
+                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+               
+               <div className="absolute bottom-0 left-0 p-6">
+                 <h3 className="text-white text-xl font-bold uppercase tracking-tight mb-2 leading-tight">{item.title}</h3>
+                 <p className="text-gray-300 text-sm font-medium leading-snug">{item.desc}</p>
+                 <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                   <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                      <ArrowUpRight size={16} className="text-black" />
+                   </div>
+                 </div>
+               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. PROOF / METRICS */}
+      <section id="proof" className="w-full bg-[#111] text-white py-24 mb-24">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <h2 className="text-xl font-bold uppercase tracking-widest text-gray-500 mb-12">Proven Experience</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 divide-y md:divide-y-0 md:divide-x divide-gray-800">
+            <div className="text-center md:text-left md:pr-8">
+              <div className="text-6xl md:text-8xl font-black tracking-tighter mb-2">10+</div>
+              <div className="text-lg font-bold uppercase tracking-wide text-gray-400">Years Leading Teams</div>
+            </div>
+            <div className="text-center md:text-left md:px-8">
+              <div className="text-6xl md:text-8xl font-black tracking-tighter mb-2">50+</div>
+              <div className="text-lg font-bold uppercase tracking-wide text-gray-400">Companies Served</div>
+            </div>
+            <div className="text-center md:text-left md:px-8">
+              <div className="text-6xl md:text-8xl font-black tracking-tighter mb-2">3–5×</div>
+              <div className="text-lg font-bold uppercase tracking-wide text-gray-400">Pipeline Growth</div>
+            </div>
+          </div>
+          
+          {/* Logos Placeholder */}
+          <div className="mt-20 pt-12 border-t border-gray-800 flex flex-wrap gap-8 opacity-30 grayscale">
+            {[1,2,3,4,5].map((i) => (
+               <div key={i} className="h-8 w-32 bg-gray-500 rounded animate-pulse"></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. HOW IT WORKS (3 Steps) */}
+      <section id="process" className="max-w-[1440px] mx-auto px-6 md:px-12 mb-24">
+        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-12 text-center">How It Works</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            {
+              step: "01",
+              title: "Diagnose",
+              desc: "We audit your marketing, pipeline, and customer journey.",
+              img: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80"
+            },
+            {
+              step: "02",
+              title: "Build the Strategy",
+              desc: "A clear roadmap with priorities, KPIs, and execution plans.",
+              img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80"
+            },
+            {
+              step: "03",
+              title: "Lead & Execute",
+              desc: "Hands-on CMO leadership that drives growth, alignment, and results.",
+              img: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80"
+            }
+          ].map((item, index) => (
+            <div key={index} className="relative h-[400px] group cursor-pointer overflow-hidden rounded-xl bg-gray-200">
+               <img 
+                 src={item.img} 
+                 alt={item.title} 
+                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+               
+               <div className="absolute top-6 left-6 bg-white text-black text-xs font-bold px-3 py-1 rounded-full">
+                 Step {item.step}
+               </div>
+               
+               <div className="absolute bottom-6 left-6 pr-6">
+                 <h3 className="text-white text-2xl font-black uppercase tracking-tight mb-2">{item.title}</h3>
+                 <p className="text-gray-200 font-medium leading-snug">{item.desc}</p>
+               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. CASE STUDIES (3 Columns) */}
+      <section id="cases" className="max-w-[1440px] mx-auto px-6 md:px-12 mb-24">
+        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-12">Results That Matter</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          {/* Case 1 */}
+          <div className="aspect-[4/5] bg-[#f5f5f5] p-8 flex flex-col justify-between group hover:bg-[#111] hover:text-white transition-colors duration-300 rounded-xl">
+             <div>
+               <p className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-6 group-hover:text-gray-400">Case Study 1</p>
+               <h3 className="text-6xl font-black tracking-tighter mb-2 group-hover:text-white text-[#111]">+70%</h3>
+               <p className="text-xl font-bold uppercase tracking-tight leading-none group-hover:text-gray-300">Qualified Leads in 6 Months</p>
+             </div>
+             <div className="pt-6 border-t border-gray-300 group-hover:border-gray-700">
+               <button className="flex items-center gap-2 font-bold text-sm uppercase tracking-wide">
+                 Read Story <ArrowRight size={16}/>
+               </button>
+             </div>
+          </div>
+
+          {/* Case 2 */}
+          <div className="aspect-[4/5] bg-[#f5f5f5] p-8 flex flex-col justify-between group hover:bg-[#111] hover:text-white transition-colors duration-300 rounded-xl">
+             <div>
+               <p className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-6 group-hover:text-gray-400">Case Study 2</p>
+               <h3 className="text-6xl font-black tracking-tighter mb-2 group-hover:text-white text-[#111]">-40%</h3>
+               <p className="text-xl font-bold uppercase tracking-tight leading-none group-hover:text-gray-300">Customer Acquisition Cost</p>
+             </div>
+             <div className="pt-6 border-t border-gray-300 group-hover:border-gray-700">
+               <button className="flex items-center gap-2 font-bold text-sm uppercase tracking-wide">
+                 Read Story <ArrowRight size={16}/>
+               </button>
+             </div>
+          </div>
+
+          {/* Case 3 */}
+          <div className="aspect-[4/5] bg-[#f5f5f5] p-8 flex flex-col justify-between group hover:bg-[#111] hover:text-white transition-colors duration-300 rounded-xl">
+             <div>
+               <p className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-6 group-hover:text-gray-400">Case Study 3</p>
+               <h3 className="text-5xl font-black tracking-tighter mb-2 group-hover:text-white text-[#111]">2M → 6M</h3>
+               <p className="text-xl font-bold uppercase tracking-tight leading-none group-hover:text-gray-300">Pipeline Scaled in 1 Year</p>
+             </div>
+             <div className="pt-6 border-t border-gray-300 group-hover:border-gray-700">
+               <button className="flex items-center gap-2 font-bold text-sm uppercase tracking-wide">
+                 Read Story <ArrowRight size={16}/>
+               </button>
+             </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. CTA */}
+      <section className="w-full px-6 md:px-12 mb-24">
+        <div className="w-full max-w-[1440px] mx-auto bg-[#111] text-white rounded-3xl overflow-hidden relative py-24 px-8 text-center">
+            <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-6 relative z-10">
+              Ready to Lead Your Growth?
+            </h2>
+            <p className="text-lg md:text-xl font-medium text-gray-400 max-w-xl mx-auto mb-10 relative z-10">
+              Get CMO-level leadership without the agency fluff.
+            </p>
+            <div className="relative z-10">
+               <button className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition-colors">
+                  Book a Strategy Call
+               </button>
+            </div>
+            {/* Texture */}
+            <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        </div>
+      </section>
+
+      {/* 7. FOOTER */}
+      <footer className="bg-white text-[#111] py-12 px-6 md:px-12 border-t border-gray-100">
+        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+           <div className="text-sm font-bold">
+             © Vital Utility
+           </div>
+           <div className="flex gap-6 text-sm font-bold text-gray-500">
+             <a href="#" className="hover:text-black">Privacy</a>
+             <a href="#" className="hover:text-black">Terms</a>
+             <a href="#" className="hover:text-black">LinkedIn</a>
+           </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default VitalUtilityLanding;
