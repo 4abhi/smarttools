@@ -103,6 +103,24 @@
             opacity: 0; /* Start hidden */
             animation: fadeInUp 0.6s ease-out forwards;
         }
+        
+        /* Custom Stack for Verified Badge */
+        .fa-stack-custom {
+            display: inline-flex;
+            position: relative;
+            height: 1.5em;
+            width: 1.5em;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+        }
+        .fa-stack-custom .fa-certificate {
+            font-size: 1.4em;
+        }
+        .fa-stack-custom .fa-check {
+            font-size: 0.8em;
+            position: absolute;
+        }
     </style>
 
     <script>
@@ -378,7 +396,7 @@
 
     <!-- Hero & Stats Section -->
     <section class="bg-brand-dark text-white pt-16 pb-24 relative overflow-hidden">
-        <!-- BG Decor (Animated) -->
+        <!-- BG Decor -->
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-green opacity-10 rounded-full blur-3xl animate-float"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-blue-500 opacity-10 rounded-full blur-3xl animate-float-delayed"></div>
 
@@ -443,7 +461,10 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <template x-for="(review, index) in visibleReviews" :key="review.id">
-                    <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full card-animate" :style="'animation-delay: ' + (index * 100) + 'ms'">
+                    <div x-transition:enter="transition ease-out duration-500"
+                         x-transition:enter-start="opacity-0 translate-y-4"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full card-animate" :style="'animation-delay: ' + (index * 100) + 'ms'">
                         
                         <!-- Card Header: App Info -->
                         <div class="flex items-start justify-between mb-4">
@@ -474,7 +495,14 @@
 
                         <!-- Footer -->
                         <div class="pt-4 border-t border-gray-50 flex items-center justify-between text-xs text-gray-400">
-                            <span class="flex items-center gap-1 text-brand-green font-bold"><i class="fa-solid fa-shield-check"></i> Verified Purchase</span>
+                            <span class="flex items-center gap-1 text-brand-green font-bold">
+                                <!-- CUSTOM VERIFIED ICON STACK -->
+                                <span class="fa-stack-custom text-brand-green">
+                                    <i class="fa-solid fa-certificate"></i>
+                                    <i class="fa-solid fa-check text-white"></i>
+                                </span>
+                                Verified Purchase
+                            </span>
                             <span x-text="review.date"></span>
                         </div>
 
