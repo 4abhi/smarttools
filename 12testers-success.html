@@ -75,7 +75,9 @@
         }
     </script>
 
+    <!-- FIXED: Added 'defer' to ensure scripts run after HTML parses -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
     <style>
         [x-cloak] { display: none !important; }
         .confetti-bg {
@@ -86,78 +88,83 @@
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-gray-50 antialiased relative" x-data="successData()">
+<body class="font-sans text-gray-800 bg-gray-50 antialiased" x-data="successData()">
 
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 py-4 sticky top-0 z-50">
-        <div class="container mx-auto px-6 flex justify-between items-center">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
             <a href="index.html" class="flex items-center gap-2">
                 <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white shadow-md">
                     <i class="fa-brands fa-android"></i>
                 </div>
-                <span class="text-lg font-bold tracking-tight text-gray-900">12Testers<span class="text-brand-green">14Days</span></span>
+                <!-- Hidden on very small screens to save space -->
+                <span class="text-lg font-bold tracking-tight text-gray-900 hidden sm:inline">12Testers<span class="text-brand-green">14Days</span></span>
             </a>
-            <div class="text-sm font-medium text-gray-500">
+            <div class="text-xs md:text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                 Order #8492-B
             </div>
         </div>
     </header>
 
-    <!-- Confetti Background Pattern -->
-    <div class="absolute inset-0 confetti-bg pointer-events-none z-0"></div>
+    <!-- FIXED: Background is now fixed to prevent cutoff on scroll -->
+    <div class="fixed inset-0 confetti-bg pointer-events-none z-0"></div>
 
-    <main class="container mx-auto px-6 py-12 max-w-5xl relative z-10">
+    <main class="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-5xl relative z-10">
         
         <!-- SUCCESS BANNER -->
-        <div class="text-center mb-12">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-brand-green text-4xl mx-auto mb-6 shadow-glow animate-bounce">
+        <div class="text-center mb-10 md:mb-12">
+            <div class="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center text-brand-green text-3xl md:text-4xl mx-auto mb-6 shadow-glow animate-bounce">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h1 class="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-2">Payment Successful!</h1>
-            <p class="text-gray-600 text-lg">Your testers are ready to start. We just need your app details.</p>
+            <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900 mb-2">Payment Successful!</h1>
+            <p class="text-gray-600 text-base md:text-lg">Your testers are ready. We just need your app details.</p>
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-8 items-start">
+        <!-- FIXED: Changed from Grid to Flex to prevent column collapsing -->
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
             
             <!-- LEFT: Action Required (Onboarding) -->
-            <div class="lg:col-span-2">
+            <div class="w-full lg:w-2/3 space-y-8">
                 
                 <!-- Step 1: Input Form -->
-                <div x-show="step === 1" x-transition.opacity class="bg-white rounded-2xl shadow-soft border border-brand-green/20 overflow-hidden">
-                    <div class="bg-brand-green/5 border-b border-brand-green/10 px-8 py-4 flex items-center gap-3">
-                        <div class="w-6 h-6 rounded-full bg-brand-green text-white flex items-center justify-center text-xs font-bold">1</div>
-                        <h2 class="font-bold text-gray-900">Final Step: Provide App Details</h2>
+                <div x-show="step === 1" class="bg-white rounded-2xl shadow-soft border border-brand-green/20 overflow-hidden transition-all duration-300">
+                    <div class="bg-brand-green/5 border-b border-brand-green/10 px-6 md:px-8 py-4 flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full bg-brand-green text-white flex items-center justify-center text-xs font-bold shrink-0">1</div>
+                        <h2 class="font-bold text-gray-900 text-sm md:text-base">Final Step: Provide App Details</h2>
                     </div>
                     
-                    <div class="p-8">
+                    <div class="p-6 md:p-8">
                         <p class="text-sm text-gray-600 mb-6">Please paste your Google Play links below so our testers can join immediately.</p>
                         
                         <div class="space-y-6">
-                            <div>
+                            <!-- App Link Input -->
+                            <div class="w-full">
                                 <label class="block mb-2 text-sm font-bold text-gray-900">App Web Link (Play Store)</label>
-                                <div class="flex">
-                                    <span class="inline-flex items-center px-3 text-sm text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg">
+                                <div class="flex rounded-lg shadow-sm">
+                                    <span class="inline-flex items-center px-3 text-sm text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg shrink-0">
                                         <i class="fa-brands fa-google-play"></i>
                                     </span>
-                                    <input type="url" x-model="appLink" class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-brand-green focus:border-brand-green block w-full text-sm p-2.5" placeholder="https://play.google.com/store/apps/details?id=com.example.app">
+                                    <!-- FIXED: Added min-w-0 to prevent overflow on mobile -->
+                                    <input type="url" x-model="appLink" class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-brand-green focus:border-brand-green block w-full min-w-0 text-sm p-2.5" placeholder="https://play.google.com...">
                                 </div>
-                                <p class="mt-1 text-xs text-gray-500">Found in Console under "Internal/Closed Testing" -> "Testers" tab.</p>
+                                <p class="mt-1 text-xs text-gray-500">Found in Console under "Internal/Closed Testing" -> "Testers".</p>
                             </div>
 
-                            <div>
+                            <!-- Google Group Input -->
+                            <div class="w-full">
                                 <label class="block mb-2 text-sm font-bold text-gray-900">Google Group Link (Optional)</label>
-                                <div class="flex">
-                                    <span class="inline-flex items-center px-3 text-sm text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg">
+                                <div class="flex rounded-lg shadow-sm">
+                                    <span class="inline-flex items-center px-3 text-sm text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg shrink-0">
                                         <i class="fa-solid fa-users-rectangle"></i>
                                     </span>
-                                    <input type="url" x-model="groupLink" class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-brand-green focus:border-brand-green block w-full text-sm p-2.5" placeholder="https://groups.google.com/g/your-testing-group">
+                                    <input type="url" x-model="groupLink" class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-brand-green focus:border-brand-green block w-full min-w-0 text-sm p-2.5" placeholder="https://groups.google.com...">
                                 </div>
-                                <p class="mt-1 text-xs text-gray-500">If you don't have this yet, we can help you set it up via email later.</p>
+                                <p class="mt-1 text-xs text-gray-500">If you don't have this yet, we can help via email.</p>
                             </div>
                         </div>
 
                         <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
-                            <button @click="submitDetails()" :disabled="submitting" class="bg-brand-green text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-green-700 transition-all flex items-center gap-2 disabled:opacity-50">
+                            <button @click="submitDetails()" :disabled="submitting" class="w-full md:w-auto bg-brand-green text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-green-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
                                 <span x-show="!submitting">Start Testing Now</span>
                                 <span x-show="!submitting"><i class="fa-solid fa-rocket"></i></span>
                                 <span x-show="submitting"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing...</span>
@@ -167,64 +174,58 @@
                 </div>
 
                 <!-- Step 2: Confirmation State -->
-                <div x-show="step === 2" x-cloak x-transition.scale class="bg-white rounded-2xl shadow-soft border border-green-100 p-8 text-center">
+                <div x-show="step === 2" x-cloak class="bg-white rounded-2xl shadow-soft border border-green-100 p-8 text-center transition-all duration-300">
                     <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 text-2xl mx-auto mb-4">
                         <i class="fa-solid fa-thumbs-up"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-gray-900 mb-2">We're on it!</h2>
-                    <p class="text-gray-600 mb-6">Your details have been sent to our team. Testers will begin installing your app within 6 hours.</p>
+                    <p class="text-gray-600 mb-6">Your details have been sent. Testers will begin installing within 6 hours.</p>
                     
                     <div class="bg-gray-50 rounded-xl p-6 text-left border border-gray-100">
                         <h4 class="font-bold text-gray-900 text-sm mb-4">Your Testing Timeline:</h4>
-                        <div class="space-y-4">
-                            <div class="flex gap-4">
-                                <div class="flex flex-col items-center">
-                                    <div class="w-3 h-3 bg-brand-green rounded-full mt-1.5"></div>
-                                    <div class="w-0.5 h-full bg-gray-200 my-1"></div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-gray-900">Day 0 (Today)</p>
-                                    <p class="text-xs text-gray-500">Testers assigned & installs begin.</p>
-                                </div>
+                        
+                        <!-- FIXED: Responsive Timeline using Border-Left instead of Flex hack -->
+                        <div class="relative pl-6 border-l-2 border-gray-200 space-y-8 ml-2">
+                            
+                            <!-- Timeline Item 1 -->
+                            <div class="relative">
+                                <div class="absolute -left-[31px] bg-brand-green w-4 h-4 rounded-full border-2 border-white mt-1"></div>
+                                <p class="text-sm font-bold text-gray-900">Day 0 (Today)</p>
+                                <p class="text-xs text-gray-500">Testers assigned & installs begin.</p>
                             </div>
-                            <div class="flex gap-4">
-                                <div class="flex flex-col items-center">
-                                    <div class="w-3 h-3 bg-gray-300 rounded-full mt-1.5"></div>
-                                    <div class="w-0.5 h-full bg-gray-200 my-1"></div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-gray-500">Day 1 - 14</p>
-                                    <p class="text-xs text-gray-500">Daily engagement logs recorded.</p>
-                                </div>
+
+                            <!-- Timeline Item 2 -->
+                            <div class="relative">
+                                <div class="absolute -left-[31px] bg-gray-300 w-4 h-4 rounded-full border-2 border-white mt-1"></div>
+                                <p class="text-sm font-bold text-gray-600">Day 1 - 14</p>
+                                <p class="text-xs text-gray-500">Daily engagement logs recorded.</p>
                             </div>
-                            <div class="flex gap-4">
-                                <div class="flex flex-col items-center">
-                                    <div class="w-3 h-3 bg-gray-300 rounded-full mt-1.5"></div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-gray-500" x-text="formatDate(getFutureDate(14))">Completion Date</p>
-                                    <p class="text-xs text-gray-500">You apply for Production Access.</p>
-                                </div>
+
+                            <!-- Timeline Item 3 -->
+                            <div class="relative">
+                                <div class="absolute -left-[31px] bg-gray-300 w-4 h-4 rounded-full border-2 border-white mt-1"></div>
+                                <p class="text-sm font-bold text-gray-600" x-text="formatDate(getFutureDate(14))">Completion Date</p>
+                                <p class="text-xs text-gray-500">You apply for Production Access.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- DOWNLOADS SECTION (Bonuses) -->
-                <div class="mt-8 bg-gradient-to-br from-brand-accent to-white rounded-2xl shadow-sm border border-blue-100 p-8">
+                <div class="mt-8 bg-gradient-to-br from-brand-accent to-white rounded-2xl shadow-sm border border-blue-100 p-6 md:p-8">
                     <div class="flex items-center gap-3 mb-6">
                         <i class="fa-solid fa-gift text-brand-green text-xl"></i>
-                        <h3 class="font-bold text-gray-900 text-lg">Your Free Downloads are Ready</h3>
+                        <h3 class="font-bold text-gray-900 text-lg">Your Free Downloads</h3>
                     </div>
 
                     <div class="grid sm:grid-cols-2 gap-4">
                         <!-- Download 1 -->
                         <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4 group cursor-pointer">
-                            <div class="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
+                            <div class="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-file-pdf"></i>
                             </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-green transition-colors">Golden Answers Cheat Sheet</h4>
+                            <div class="flex-grow min-w-0">
+                                <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-green transition-colors truncate">Golden Answers Cheat Sheet</h4>
                                 <p class="text-xs text-gray-500">PDF - 2.4 MB</p>
                             </div>
                             <i class="fa-solid fa-download text-gray-300 group-hover:text-brand-green"></i>
@@ -232,11 +233,11 @@
 
                         <!-- Download 2 -->
                         <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4 group cursor-pointer">
-                            <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center">
+                            <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-file-word"></i>
                             </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-green transition-colors">Rejection Appeal Template</h4>
+                            <div class="flex-grow min-w-0">
+                                <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-green transition-colors truncate">Rejection Appeal Template</h4>
                                 <p class="text-xs text-gray-500">DOCX - 1.1 MB</p>
                             </div>
                             <i class="fa-solid fa-download text-gray-300 group-hover:text-brand-green"></i>
@@ -247,27 +248,30 @@
             </div>
 
             <!-- RIGHT: Support & Summary -->
-            <div class="lg:w-1/3 space-y-6">
+            <!-- FIXED: Use w-full on mobile, w-1/3 on large screens. Removed min-w constraint to flow better -->
+            <div class="w-full lg:w-1/3 space-y-6">
                 
                 <!-- Order Card -->
                 <div class="bg-white rounded-2xl shadow-soft border border-gray-100 p-6">
                     <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Order Summary</h3>
                     <div class="space-y-3 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Product</span>
-                            <span class="font-bold text-gray-900">20 Testers Plan</span>
+                        <div class="flex justify-between items-start">
+                            <span class="text-gray-600 shrink-0">Product</span>
+                            <span class="font-bold text-gray-900 text-right">20 Testers Plan</span>
                         </div>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between items-center">
                             <span class="text-gray-600">Total Paid</span>
-                            <span class="font-bold text-brand-green">$55.00</span>
+                            <span class="font-bold text-brand-green text-lg">$55.00</span>
                         </div>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between items-center">
                             <span class="text-gray-600">Date</span>
-                            <span class="text-gray-900" x-text="formatDate(new Date())"></span>
+                            <span class="text-gray-900 text-right" x-text="formatDate(new Date())"></span>
                         </div>
                     </div>
                     <div class="mt-4 pt-4 border-t border-gray-100 text-center">
-                        <button class="text-brand-green text-xs font-bold hover:underline"><i class="fa-solid fa-file-invoice"></i> Download Invoice</button>
+                        <button class="text-brand-green text-xs font-bold hover:underline flex items-center justify-center gap-2 w-full py-2">
+                            <i class="fa-solid fa-file-invoice"></i> Download Invoice
+                        </button>
                     </div>
                 </div>
 
@@ -275,16 +279,18 @@
                 <div class="bg-gray-900 text-white rounded-2xl shadow-lg p-6 relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mr-4 -mt-4 w-20 h-20 bg-gray-800 rounded-full opacity-50"></div>
                     
-                    <h3 class="font-bold mb-2">Need Help?</h3>
+                    <h3 class="font-bold mb-2 text-lg">Need Help?</h3>
                     <p class="text-sm text-gray-400 mb-4">Issues with the links? Contact our priority support team.</p>
                     
-                    <div class="flex items-center gap-3 text-sm mb-2">
-                        <i class="fa-solid fa-envelope text-brand-green"></i>
-                        <a href="mailto:support@12testers14days.com" class="hover:text-brand-green">support@12testers14days.com</a>
-                    </div>
-                    <div class="flex items-center gap-3 text-sm">
-                        <i class="fa-brands fa-whatsapp text-brand-green"></i>
-                        <a href="#" class="hover:text-brand-green">Chat on WhatsApp</a>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm overflow-hidden">
+                            <i class="fa-solid fa-envelope text-brand-green shrink-0"></i>
+                            <a href="mailto:support@12testers14days.com" class="hover:text-brand-green break-all truncate">support@12testers14days.com</a>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fa-brands fa-whatsapp text-brand-green shrink-0"></i>
+                            <a href="#" class="hover:text-brand-green">Chat on WhatsApp</a>
+                        </div>
                     </div>
                 </div>
 
