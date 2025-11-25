@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Updates - 12 Testers 14 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#01875f', 
+                            dark: '#202124',
+                            light: '#f8f9fa',
+                            accent: '#e8f0fe'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(1, 135, 95, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 antialiased">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white shadow-md">
+                    <i class="fa-brands fa-android"></i>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-gray-900">12Testers<span class="text-brand-green">14Days</span></span>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
+                <a href="index.html" class="hover:text-brand-green transition-colors">Home</a>
+                <a href="#" class="text-brand-green font-bold">Blog</a>
+                <a href="index.html#pricing" class="hover:text-brand-green transition-colors">Pricing</a>
+            </nav>
+            <a href="login.html" class="text-sm font-bold bg-brand-accent text-brand-green px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors">
+                Login
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-white border-b border-gray-200 py-16 md:py-24 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-green opacity-5 rounded-full blur-3xl"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <span class="text-brand-green font-bold tracking-wider text-xs uppercase bg-green-50 px-3 py-1 rounded-full mb-4 inline-block">Developer Resources</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Latest Updates & Guides</h1>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">Master Google Play's testing requirements, avoid rejection, and launch your app with confidence.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        
+        <!-- Featured Post (Large Card) -->
+        <div class="mb-16">
+            <a href="#" class="group block relative bg-white rounded-3xl shadow-soft border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div class="grid md:grid-cols-2 gap-0">
+                    <div class="bg-gray-200 h-64 md:h-auto relative overflow-hidden">
+                        <!-- Placeholder Image -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-green to-teal-400 opacity-90"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-white opacity-20 text-9xl">
+                            <i class="fa-brands fa-google-play"></i>
+                        </div>
+                    </div>
+                    <div class="p-8 md:p-12 flex flex-col justify-center">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1 rounded-full">Essential Reading</span>
+                            <span class="text-gray-400 text-xs">Nov 24, 2025</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-brand-green transition-colors">Google Play "20 Testers" Policy: The Complete 2025 Survival Guide</h2>
+                        <p class="text-gray-600 mb-6 line-clamp-3">Google's requirement for personal developer accounts isn't going away. Here is exactly how to gather 20 testers, verify engagement, and ensure your Production Access application is approved on the first try.</p>
+                        <div class="flex items-center text-brand-green font-bold text-sm">
+                            Read Article <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Filter / Categories -->
+        <div class="flex flex-wrap gap-2 mb-10">
+            <button class="bg-brand-dark text-white px-4 py-2 rounded-full text-sm font-medium">All Posts</button>
+            <button class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:border-brand-green hover:text-brand-green transition-colors">Policy Updates</button>
+            <button class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:border-brand-green hover:text-brand-green transition-colors">Tutorials</button>
+            <button class="bg-white border border-gray-200 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:border-brand-green hover:text-brand-green transition-colors">Success Stories</button>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Post 1 -->
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group h-full flex flex-col">
+                <div class="h-48 bg-blue-50 relative flex items-center justify-center overflow-hidden">
+                    <i class="fa-solid fa-ban text-blue-200 text-6xl transform group-hover:scale-110 transition-transform duration-500"></i>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-blue-600 text-xs font-bold uppercase tracking-wide">Troubleshooting</span>
+                        <span class="text-gray-400 text-xs">Nov 20, 2025</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-green transition-colors">
+                        <a href="#">Why Was My Production Access Rejected? (5 Common Reasons)</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                        "Insufficient tester engagement" is the vague error message nightmares are made of. We decode what it actually means and how to fix your testing track data.
+                    </p>
+                    <a href="#" class="text-brand-green font-bold text-sm mt-auto inline-flex items-center">Read More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i></a>
+                </div>
+            </article>
+
+            <!-- Post 2 -->
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group h-full flex flex-col">
+                <div class="h-48 bg-purple-50 relative flex items-center justify-center overflow-hidden">
+                    <i class="fa-solid fa-users-viewfinder text-purple-200 text-6xl transform group-hover:scale-110 transition-transform duration-500"></i>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-purple-600 text-xs font-bold uppercase tracking-wide">Comparisons</span>
+                        <span class="text-gray-400 text-xs">Nov 15, 2025</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-green transition-colors">
+                        <a href="#">Paid Testers vs. Facebook Groups: Is It Worth the Money?</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                        Is it safe to swap reviews in free communities? We analyze the risk of account bans, ghosting testers, and why Google's algorithm prefers consistent engagement.
+                    </p>
+                    <a href="#" class="text-brand-green font-bold text-sm mt-auto inline-flex items-center">Read More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i></a>
+                </div>
+            </article>
+
+            <!-- Post 3 -->
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group h-full flex flex-col">
+                <div class="h-48 bg-yellow-50 relative flex items-center justify-center overflow-hidden">
+                    <i class="fa-solid fa-file-contract text-yellow-200 text-6xl transform group-hover:scale-110 transition-transform duration-500"></i>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-yellow-600 text-xs font-bold uppercase tracking-wide">Tutorial</span>
+                        <span class="text-gray-400 text-xs">Nov 10, 2025</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-green transition-colors">
+                        <a href="#">How to Answer Google's Production Access Questionnaire</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                        Don't write one-word answers. We provide a template for answering the 5 critical questions Google asks after your 14-day testing period ends.
+                    </p>
+                    <a href="#" class="text-brand-green font-bold text-sm mt-auto inline-flex items-center">Read More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i></a>
+                </div>
+            </article>
+
+            <!-- Post 4 -->
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group h-full flex flex-col">
+                <div class="h-48 bg-gray-100 relative flex items-center justify-center overflow-hidden">
+                    <i class="fa-brands fa-android text-gray-300 text-6xl transform group-hover:scale-110 transition-transform duration-500"></i>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-gray-600 text-xs font-bold uppercase tracking-wide">News</span>
+                        <span class="text-gray-400 text-xs">Oct 28, 2025</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-green transition-colors">
+                        <a href="#">Is Google Planning to Increase the Requirement to 28 Days?</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                        Rumors are circulating about stricter Play Store policies in 2026. Here is what we know about potential changes to the closed testing duration.
+                    </p>
+                    <a href="#" class="text-brand-green font-bold text-sm mt-auto inline-flex items-center">Read More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i></a>
+                </div>
+            </article>
+
+            <!-- Post 5 -->
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group h-full flex flex-col">
+                <div class="h-48 bg-green-50 relative flex items-center justify-center overflow-hidden">
+                    <i class="fa-solid fa-chart-line text-green-200 text-6xl transform group-hover:scale-110 transition-transform duration-500"></i>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-brand-green text-xs font-bold uppercase tracking-wide">Analytics</span>
+                        <span class="text-gray-400 text-xs">Oct 15, 2025</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-brand-green transition-colors">
+                        <a href="#">Tracking Tester Engagement in Play Console</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                        A step-by-step guide on where to find the "Opt-in" numbers and how to read the crash reports provided by your closed testing group.
+                    </p>
+                    <a href="#" class="text-brand-green font-bold text-sm mt-auto inline-flex items-center">Read More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i></a>
+                </div>
+            </article>
+
+            <!-- Newsletter CTA Card -->
+            <div class="bg-brand-dark rounded-2xl p-8 flex flex-col justify-center items-center text-center text-white h-full">
+                <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-4 text-xl">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Never Miss an Update</h3>
+                <p class="text-gray-400 text-sm mb-6">Get the latest Google Play policy changes delivered to your inbox.</p>
+                <form class="w-full">
+                    <input type="email" placeholder="Your email address" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-gray-600 text-white placeholder-gray-400 mb-3 focus:outline-none focus:ring-2 focus:ring-brand-green text-sm">
+                    <button class="w-full bg-brand-green text-white font-bold py-2 rounded-lg hover:bg-green-700 transition-colors text-sm">
+                        Subscribe Free
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-16 flex justify-center">
+            <nav class="inline-flex rounded-md shadow-sm">
+                <a href="#" class="px-4 py-2 rounded-l-lg border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Previous</a>
+                <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-brand-green text-white text-sm font-medium">1</a>
+                <a href="#" class="px-4 py-2 border-t border-b border-r border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
+                <a href="#" class="px-4 py-2 border-t border-b border-r border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</a>
+                <a href="#" class="px-4 py-2 rounded-r-lg border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Next</a>
+            </nav>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white text-sm">
+                    <i class="fa-brands fa-android"></i>
+                </div>
+                <span class="text-lg font-bold text-gray-900">12Testers<span class="text-brand-green">14Days</span></span>
+            </div>
+            <p class="text-xs text-gray-500 mb-6">Helping developers publish with confidence.</p>
+            <div class="flex justify-center gap-6 text-xs text-gray-500">
+                <a href="index.html" class="hover:text-brand-green">Home</a>
+                <a href="terms.html" class="hover:text-brand-green">Terms</a>
+                <a href="privacy-policy.html" class="hover:text-brand-green">Privacy</a>
+                <a href="refund-policy.html" class="hover:text-brand-green">Refunds</a>
+            </div>
+            <p class="text-[10px] text-gray-400 mt-8">&copy; 2025 12Testers14Days.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
