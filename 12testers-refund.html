@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy - 12 Testers 14 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#01875f', 
+                            dark: '#202124',
+                            light: '#f8f9fa',
+                            accent: '#e8f0fe'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(1, 135, 95, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 antialiased">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white shadow-md">
+                    <i class="fa-brands fa-android"></i>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-gray-900">12Testers<span class="text-brand-green">14Days</span></span>
+            </a>
+            <a href="index.html" class="text-sm font-medium text-gray-500 hover:text-brand-green transition-colors">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12 max-w-4xl">
+        
+        <div class="bg-white rounded-2xl shadow-soft border border-gray-100 p-8 md:p-12">
+            
+            <div class="mb-10 border-b border-gray-100 pb-8">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Refund Policy</h1>
+                <p class="text-gray-500">Last updated: November 25, 2025</p>
+            </div>
+
+            <div class="prose prose-green max-w-none text-gray-600 space-y-8">
+                
+                <!-- 1. The Guarantee -->
+                <section class="bg-green-50 p-6 rounded-xl border border-green-100">
+                    <h2 class="text-xl font-bold text-brand-green mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-check"></i> 100% Satisfaction Guarantee
+                    </h2>
+                    <p class="text-gray-700">We stand behind our service. If we fail to deliver the 20 testers required for the 14-day period, or if your app is rejected specifically due to lack of tester engagement (with proof), we will issue a full refund.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">1. Eligibility for Full Refund</h2>
+                    <p>You are eligible for a 100% refund if:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-2">
+                        <li><strong>Service Non-Delivery:</strong> We failed to assign the purchased number of testers to your Google Group within 48 hours of you providing the correct links.</li>
+                        <li><strong>Engagement Rejection:</strong> Google Play rejects your application for Production Access specifically citing <em>"Insufficient Tester Engagement"</em> AND you provide us with a screenshot of this rejection email/notification.</li>
+                        <li><strong>Duplicate Charge:</strong> You were accidentally charged twice for the same service.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">2. Non-Refundable Scenarios</h2>
+                    <p>Refunds will <strong>NOT</strong> be granted under the following circumstances:</p>
+                    <ul class="list-disc pl-5 space-y-2 mt-2">
+                        <li><strong>App Crashes/Bugs:</strong> If testers cannot open or use your app because it crashes, freezes, or has critical bugs. It is your responsibility to provide a stable build.</li>
+                        <li><strong>Policy Violations:</strong> If your app is rejected, suspended, or removed by Google for violating Play Store policies (e.g., malware, deceptive behavior, copyright infringement).</li>
+                        <li><strong>Change of Mind:</strong> If you decide to cancel the service after testers have already been assigned and started their work.</li>
+                        <li><strong>Inactivity by Developer:</strong> If you fail to maintain the "Closed Testing" track active for the required 14 days or remove the app from the console yourself.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">3. Free Re-Test Option</h2>
+                    <p>In cases where Google rejects an app for engagement reasons (even if it's a borderline case), we typically offer a <strong>Free Re-Run</strong> of the 14-day cycle as a first step. This is often faster and more beneficial than a refund, as it helps you get published. You may choose between the free re-test or the refund.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">4. Processing Time</h2>
+                    <p>Refund requests are reviewed within 24 hours. Once approved, funds are returned to your original payment method (Stripe or PayPal). Please allow:</p>
+                    <ul class="list-disc pl-5 space-y-1 mt-2">
+                        <li><strong>Credit Cards:</strong> 5-10 business days for the bank to process.</li>
+                        <li><strong>PayPal:</strong> Often instant or within 1 business day.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">5. How to Request a Refund</h2>
+                    <p>To initiate a refund, please email us with your <strong>Order ID</strong> and the reason for the request:</p>
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-2 inline-block">
+                        <i class="fa-solid fa-envelope text-brand-green mr-2"></i>
+                        <a href="mailto:refunds@12testers14days.com" class="text-gray-900 font-medium hover:text-brand-green">refunds@12testers14days.com</a>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white text-sm">
+                    <i class="fa-brands fa-android"></i>
+                </div>
+                <span class="text-lg font-bold text-white">12Testers14Days</span>
+            </div>
+            <p class="text-xs text-gray-500 mb-6">Fair policies for indie developers.</p>
+            <div class="flex justify-center gap-6 text-xs">
+                <a href="index.html" class="hover:text-white">Home</a>
+                <a href="terms.html" class="hover:text-white">Terms & Conditions</a>
+                <a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a>
+                <a href="#" class="hover:text-white text-brand-green font-bold">Refund Policy</a>
+            </div>
+            <p class="text-[10px] text-gray-600 mt-8">&copy; 2025 12Testers14Days.com. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
