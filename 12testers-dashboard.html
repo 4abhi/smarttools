@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - 12 Testers 14 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js for Engagement Graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#01875f', 
+                            dark: '#202124',
+                            light: '#f8f9fa',
+                            accent: '#e8f0fe',
+                            yellow: '#fbbc04'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(1, 135, 95, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js Logic -->
+    <script>
+        function dashboardData() {
+            return {
+                sidebarOpen: false,
+                currentTab: 'overview', // overview, submit_app, testers, reports, bonuses, support
+                notificationsOpen: false,
+                showBottomBanner: true,
+                currentDay: 4,
+                totalDays: 14,
+                feedbackText: '',
+                
+                // Mock Tester Data
+                testers: [
+                    { id: 1, name: "Alex M.", device: "Pixel 7", status: "Active", lastActive: "2 mins ago" },
+                    { id: 2, name: "Sarah J.", device: "Samsung S22", status: "Active", lastActive: "15 mins ago" },
+                    { id: 3, name: "Mike T.", device: "OnePlus 9", status: "Active", lastActive: "1 hour ago" },
+                    { id: 4, name: "Emma W.", device: "Xiaomi 12", status: "Active", lastActive: "3 hours ago" },
+                    { id: 5, name: "David B.", device: "Pixel 6a", status: "Active", lastActive: "5 hours ago" },
+                    { id: 6, name: "Lisa K.", device: "Nothing Phone", status: "Active", lastActive: "6 hours ago" },
+                    { id: 7, name: "James P.", device: "Galaxy Fold 4", status: "Active", lastActive: "Yesterday" },
+                ],
+
+                // Mock Feed
+                activities: [
+                    { type: 'feedback', user: 'Alex M.', text: 'Found a small UI glitch on the settings screen in Dark Mode.', time: '10:42 AM' },
+                    { type: 'open', user: 'Sarah J.', text: 'Daily engagement session started.', time: '09:15 AM' },
+                    { type: 'install', user: 'New Tester', text: 'Tester #20 has opted-in to your track.', time: 'Yesterday' },
+                    { type: 'open', user: 'Mike T.', text: 'Daily engagement session started.', time: 'Yesterday' },
+                ],
+
+                // Mock Notifications
+                notifications: [
+                    { title: 'New Feedback', desc: 'Alex M. reported a UI bug.', time: '10 min ago', type: 'info' },
+                    { title: 'Goal Reached', desc: 'Day 4 Engagement goal met.', time: '1 hour ago', type: 'success' },
+                    { title: 'System', desc: 'Daily logs are ready for download.', time: '2 hours ago', type: 'neutral' }
+                ],
+
+                get progressPercentage() {
+                    return (this.currentDay / this.totalDays) * 100;
+                },
+
+                changeTab(tab) {
+                    this.currentTab = tab;
+                    this.sidebarOpen = false; // Close mobile sidebar on navigate
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+
+                submitFeedback() {
+                    if (!this.feedbackText) return alert('Please enter some feedback.');
+                    alert('Thank you! Your feedback has been sent to our product team.');
+                    this.feedbackText = '';
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 antialiased h-screen flex overflow-hidden" x-data="dashboardData()">
+
+    <!-- Sidebar (Mobile Overlay) -->
+    <div x-show="sidebarOpen" x-cloak class="fixed inset-0 z-40 bg-gray-900/50 lg:hidden" @click="sidebarOpen = false"></div>
+
+    <!-- Sidebar -->
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:relative lg:translate-x-0 flex flex-col justify-between">
+        <div>
+            <!-- Logo -->
+            <div class="h-16 flex items-center px-6 border-b border-gray-100">
+                <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white shadow-sm mr-2">
+                    <i class="fa-brands fa-android"></i>
+                </div>
+                <span class="font-bold text-gray-900 tracking-tight">12Testers<span class="text-brand-green">14Days</span></span>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="p-4 space-y-1">
+                
+                <!-- Primary Actions -->
+                <a href="#" @click.prevent="changeTab('submit_app')" :class="currentTab === 'submit_app' ? 'bg-brand-green text-white shadow-md' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all mb-4 border border-transparent">
+                    <i class="fa-solid fa-plus-circle w-5"></i> Submit New App
+                </a>
+
+                <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Menu</p>
+
+                <a href="#" @click.prevent="changeTab('overview')" :class="currentTab === 'overview' ? 'bg-brand-accent text-brand-green' : 'text-gray-600 hover:bg-gray-50'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-chart-line w-5"></i> Overview
+                </a>
+                <a href="#" @click.prevent="changeTab('testers')" :class="currentTab === 'testers' ? 'bg-brand-accent text-brand-green' : 'text-gray-600 hover:bg-gray-50'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-users w-5"></i> My Testers <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full ml-auto">20</span>
+                </a>
+                <a href="#" @click.prevent="changeTab('reports')" :class="currentTab === 'reports' ? 'bg-brand-accent text-brand-green' : 'text-gray-600 hover:bg-gray-50'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-file-contract w-5"></i> Reports
+                </a>
+                
+                <div class="pt-4 mt-4 border-t border-gray-100">
+                    <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Resources</p>
+                    <a href="#" @click.prevent="changeTab('bonuses')" :class="currentTab === 'bonuses' ? 'bg-brand-accent text-brand-green' : 'text-gray-600 hover:bg-gray-50'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors group">
+                        <i class="fa-solid fa-gift w-5 text-purple-500 group-hover:animate-bounce"></i> Bonuses
+                    </a>
+                    <a href="#" @click.prevent="changeTab('support')" :class="currentTab === 'support' ? 'bg-brand-accent text-brand-green' : 'text-gray-600 hover:bg-gray-50'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                        <i class="fa-solid fa-circle-question w-5"></i> Support
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- User Profile -->
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center gap-3 px-2 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                <img src="https://ui-avatars.com/api/?name=John+Dev&background=random" alt="User" class="w-10 h-10 rounded-full">
+                <div class="flex-grow min-w-0">
+                    <p class="text-sm font-bold text-gray-900 truncate">John Developer</p>
+                    <p class="text-xs text-gray-500 truncate">Plan: 20 Testers</p>
+                </div>
+                <button class="text-gray-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        
+        <!-- Top Bar -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 lg:px-8 relative z-30">
+            <button @click="sidebarOpen = true" class="lg:hidden text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            
+            <div class="flex items-center gap-4 ml-auto">
+                <div class="text-xs text-gray-500 hidden md:block">
+                    Last synced: <span class="font-bold text-gray-700">Just now</span>
+                </div>
+                <div class="h-6 w-px bg-gray-200 hidden md:block"></div>
+                
+                <!-- Notification Bell with Dropdown -->
+                <div class="relative">
+                    <button @click="notificationsOpen = !notificationsOpen" class="relative text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
+                        <i class="fa-solid fa-bell text-xl"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div x-show="notificationsOpen" @click.away="notificationsOpen = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-50 origin-top-right">
+                        <div class="px-4 py-3 border-b border-gray-100 flex justify-between items-center">
+                            <h3 class="text-sm font-bold text-gray-900">Notifications</h3>
+                            <button @click="notificationsOpen = false" class="text-xs text-gray-400 hover:text-gray-600">Close</button>
+                        </div>
+                        <div class="max-h-64 overflow-y-auto">
+                            <template x-for="note in notifications">
+                                <div class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors last:border-0 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-2 h-2 rounded-full mt-1.5 shrink-0" :class="{
+                                            'bg-blue-500': note.type === 'info',
+                                            'bg-green-500': note.type === 'success',
+                                            'bg-gray-400': note.type === 'neutral'
+                                        }"></div>
+                                        <div>
+                                            <p class="text-sm font-bold text-gray-800" x-text="note.title"></p>
+                                            <p class="text-xs text-gray-500 mt-0.5" x-text="note.desc"></p>
+                                            <p class="text-[10px] text-gray-400 mt-1" x-text="note.time"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="px-4 py-2 bg-gray-50 text-center border-t border-gray-100 rounded-b-xl">
+                            <button class="text-xs font-bold text-brand-green hover:underline">Mark all as read</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Scrollable Area -->
+        <div class="flex-1 overflow-y-auto p-6 lg:p-8 pb-24"> <!-- Added pb-24 to prevent overlap with bottom banner -->
+            
+            <!-- ==================== OVERVIEW TAB ==================== -->
+            <div x-show="currentTab === 'overview'" class="space-y-8" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <!-- [Content same as previous version] -->
+                <!-- Welcome & Status -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+                        <p class="text-sm text-gray-500">Tracking "My Awesome App" (com.example.app)</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-green-50 border border-green-100 text-brand-green px-4 py-2 rounded-full text-sm font-bold animate-pulse">
+                        <span class="w-2 h-2 bg-brand-green rounded-full"></span>
+                        Testing in Progress
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Timeline</p>
+                                <h3 class="text-3xl font-bold text-gray-900">Day 4<span class="text-lg text-gray-400 font-normal">/14</span></h3>
+                            </div>
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
+                                <i class="fa-regular fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 28%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">10 days remaining</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft flex flex-col justify-between cursor-pointer hover:border-brand-green transition-colors" @click="changeTab('testers')">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Active Testers</p>
+                                <h3 class="text-3xl font-bold text-gray-900">20<span class="text-lg text-gray-400 font-normal">/20</span></h3>
+                            </div>
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center text-brand-green">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="flex -space-x-2 overflow-hidden">
+                            <template x-for="i in 3">
+                                <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="'https://ui-avatars.com/api/?name=' + i + '&background=random'" alt=""/>
+                            </template>
+                            <span class="inline-flex items-center justify-center h-6 w-6 rounded-full ring-2 ring-white bg-gray-100 text-[10px] font-medium text-gray-500">+17</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">100% Opt-in Rate</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft flex flex-col justify-between cursor-pointer hover:border-brand-green transition-colors" @click="changeTab('reports')">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Daily Engagement</p>
+                                <h3 class="text-3xl font-bold text-gray-900">High</h3>
+                            </div>
+                            <div class="w-10 h-10 bg-yellow-50 rounded-lg flex items-center justify-center text-yellow-600">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Your app is being opened ~24 times/day by the group.</p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                            <h3 class="font-bold text-gray-900">Live Activity Feed</h3>
+                            <button @click="changeTab('reports')" class="text-xs text-brand-green font-bold hover:underline">View Full Report</button>
+                        </div>
+                        <div class="p-6 space-y-6">
+                            <template x-for="(activity, index) in activities" :key="index">
+                                <div class="flex gap-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs"
+                                             :class="{
+                                                'bg-blue-500': activity.type === 'feedback',
+                                                'bg-green-500': activity.type === 'open',
+                                                'bg-gray-400': activity.type === 'install'
+                                             }">
+                                            <i class="fa-solid" :class="{
+                                                'fa-comment-dots': activity.type === 'feedback',
+                                                'fa-mobile-screen': activity.type === 'open',
+                                                'fa-download': activity.type === 'install'
+                                             }"></i>
+                                        </div>
+                                        <div class="w-0.5 h-full bg-gray-100 my-2" x-show="index !== activities.length - 1"></div>
+                                    </div>
+                                    <div class="pb-6">
+                                        <p class="text-sm font-bold text-gray-900" x-text="activity.user"></p>
+                                        <p class="text-sm text-gray-600 mt-1" x-text="activity.text"></p>
+                                        <p class="text-xs text-gray-400 mt-2" x-text="activity.time"></p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-gray-900 text-white rounded-2xl p-6 shadow-lg relative overflow-hidden">
+                            <div class="absolute top-0 right-0 -mr-10 -mt-10 w-32 h-32 bg-brand-green opacity-20 rounded-full blur-2xl"></div>
+                            <h3 class="font-bold mb-4">Production Readiness</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-brand-green flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></div>
+                                    <span class="text-sm text-gray-200 line-through decoration-gray-500">20 Testers Recruited</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-5 h-5 rounded-full bg-brand-green flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></div>
+                                    <span class="text-sm text-gray-200 line-through decoration-gray-500">Opt-in Confirmed</span>
+                                </div>
+                                <div class="flex items-center gap-3 opacity-50">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-600 flex items-center justify-center text-[10px]"></div>
+                                    <span class="text-sm text-gray-400">14 Days Completed</span>
+                                </div>
+                                <div class="flex items-center gap-3 opacity-50">
+                                    <div class="w-5 h-5 rounded-full border-2 border-gray-600 flex items-center justify-center text-[10px]"></div>
+                                    <span class="text-sm text-gray-400">Feedback Summary</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== SUBMIT NEW APP TAB ==================== -->
+            <div x-show="currentTab === 'submit_app'" class="max-w-3xl mx-auto" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                <div class="flex items-center gap-4 mb-8">
+                    <button @click="changeTab('overview')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h1 class="text-2xl font-bold text-gray-900">Start New Testing Campaign</h1>
+                </div>
+                <div class="bg-white rounded-2xl shadow-soft border border-gray-100 overflow-hidden">
+                    <div class="bg-gray-50 px-8 py-6 border-b border-gray-100">
+                        <h3 class="font-bold text-gray-900">App Details</h3>
+                        <p class="text-sm text-gray-500">Provide the links needed for testers to join.</p>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">App Name</label>
+                            <input type="text" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green" placeholder="e.g. Super Todo App">
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Google Play Web Link</label>
+                                <input type="url" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green" placeholder="https://play.google.com/...">
+                                <p class="text-xs text-gray-400 mt-1">From "Closed Testing" -> "Testers" tab</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Google Group Link</label>
+                                <input type="url" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green" placeholder="https://groups.google.com/...">
+                                <p class="text-xs text-gray-400 mt-1">Optional but recommended</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 text-sm text-blue-800">
+                            <i class="fa-solid fa-info-circle mr-2"></i>
+                            Starting a new test costs <strong>$35.00</strong> (12 Testers) or <strong>$55.00</strong> (20 Testers). You will be redirected to payment.
+                        </div>
+                        <div class="pt-4 flex justify-end">
+                            <button class="bg-brand-green text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-green-700 transition-all flex items-center gap-2">
+                                Proceed to Payment <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== TESTERS TAB ==================== -->
+            <div x-show="currentTab === 'testers'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">My Testers</h2>
+                    <button class="text-sm text-brand-green font-bold border border-brand-green px-4 py-2 rounded-lg hover:bg-green-50">Export List</button>
+                </div>
+                <div class="bg-white rounded-2xl shadow-soft border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-50 text-gray-500">
+                                <tr>
+                                    <th class="px-6 py-4 font-medium">Tester Name</th>
+                                    <th class="px-6 py-4 font-medium">Device Model</th>
+                                    <th class="px-6 py-4 font-medium">Status</th>
+                                    <th class="px-6 py-4 font-medium">Last Active</th>
+                                    <th class="px-6 py-4 font-medium">Region</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <template x-for="tester in testers" :key="tester.id">
+                                    <tr class="hover:bg-gray-50/50 transition-colors">
+                                        <td class="px-6 py-4 font-bold text-gray-900 flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-600 font-bold" x-text="tester.name.charAt(0)"></div>
+                                            <span x-text="tester.name"></span>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-600">
+                                            <i class="fa-solid fa-mobile-screen text-gray-400 mr-2"></i>
+                                            <span x-text="tester.device"></span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full" x-text="tester.status"></span>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-500" x-text="tester.lastActive"></td>
+                                        <td class="px-6 py-4 text-gray-500">Global</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== REPORTS TAB ==================== -->
+            <div x-show="currentTab === 'reports'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Engagement Reports</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft flex items-center gap-6">
+                        <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-3xl">
+                            <i class="fa-solid fa-file-csv"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">Daily Activity Log</h3>
+                            <p class="text-sm text-gray-500 mb-3">Full CSV export of open events for Google appeal.</p>
+                            <button class="text-sm font-bold text-blue-600 hover:underline">Download CSV</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft flex items-center gap-6">
+                        <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-3xl">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-lg">Tester Feedback</h3>
+                            <p class="text-sm text-gray-500 mb-3">Consolidated list of bugs and suggestions.</p>
+                            <button class="text-sm font-bold text-purple-600 hover:underline">View Feedback</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== BONUSES TAB ==================== -->
+            <div x-show="currentTab === 'bonuses'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Bonus Materials</h2>
+                <p class="text-gray-500 mb-8">Tools to help you pass the Google Play review process.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-lg flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-file-pdf"></i></div>
+                        <h3 class="font-bold text-gray-900 mb-2">Golden Answers Cheat Sheet</h3>
+                        <p class="text-sm text-gray-500 mb-4">Copy-paste templates for the 5 difficult questions Google asks during production application.</p>
+                        <button class="w-full py-2 rounded-lg border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 hover:text-gray-900 transition-colors">Download PDF</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-soft hover:shadow-lg transition-shadow">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-file-word"></i></div>
+                        <h3 class="font-bold text-gray-900 mb-2">Rejection Appeal Template</h3>
+                        <p class="text-sm text-gray-500 mb-4">A professional email template to send to Google support if your app is unfairly rejected.</p>
+                        <button class="w-full py-2 rounded-lg border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 hover:text-gray-900 transition-colors">Download DOCX</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== SUPPORT TAB ==================== -->
+            <div x-show="currentTab === 'support'" class="max-w-5xl mx-auto" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Support & Feedback</h2>
+                <p class="text-gray-500 mb-8">Need help getting published or want to suggest a feature? We're listening.</p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Contact Column -->
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-2xl shadow-soft border border-gray-100 p-8">
+                            <div class="inline-block p-3 rounded-full bg-blue-50 text-blue-600 mb-4">
+                                <i class="fa-solid fa-headset text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Need Help?</h3>
+                            <p class="text-gray-600 text-sm mb-6">Stuck with a policy question? Need help with your order? Our team of Android experts is here to help you navigate the Play Console maze.</p>
+                            
+                            <div class="space-y-3">
+                                <a href="mailto:support@12testers14days.com" class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-brand-green hover:bg-green-50 transition-all group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-white group-hover:text-brand-green transition-colors">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="text-sm font-bold text-gray-900">Email Support</p>
+                                            <p class="text-xs text-gray-500">Typical reply: &lt; 2 hours</p>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-gray-400 group-hover:text-brand-green"></i>
+                                </a>
+
+                                <a href="#" class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-green-500 hover:bg-green-50 transition-all group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-white group-hover:text-green-600 transition-colors">
+                                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="text-sm font-bold text-gray-900">Chat on WhatsApp</p>
+                                            <p class="text-xs text-gray-500">Available 9am - 6pm</p>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-gray-400 group-hover:text-green-600"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Column -->
+                    <div class="bg-brand-dark text-white rounded-2xl shadow-lg p-8 relative overflow-hidden flex flex-col justify-between">
+                        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-brand-green opacity-10 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="inline-block p-3 rounded-full bg-white/10 text-brand-green mb-4 border border-white/10">
+                                <i class="fa-solid fa-lightbulb text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Suggest a Feature</h3>
+                            <p class="text-gray-400 text-sm mb-6">We are building this for you. Have an idea for a new feature? Want a specific type of report? Let us know how we can make your testing life easier.</p>
+                            
+                            <div class="space-y-4">
+                                <textarea x-model="feedbackText" rows="4" class="w-full rounded-xl bg-white/5 border border-gray-700 text-white placeholder-gray-500 focus:border-brand-green focus:ring-brand-green text-sm p-4 resize-none" placeholder="I wish the dashboard had..."></textarea>
+                                <button @click="submitFeedback()" class="w-full bg-brand-green text-white font-bold py-3 rounded-xl hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+                                    Send Suggestion <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Bottom Alert Banner -->
+    <div x-show="showBottomBanner" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-y-full opacity-0" x-transition:enter-end="translate-y-0 opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="translate-y-full opacity-0" class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50 max-w-sm w-full px-4 md:px-0">
+        <div class="bg-brand-dark text-white p-4 rounded-xl shadow-2xl border border-gray-700 flex items-start gap-4 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-brand-green"></div>
+            <div class="bg-white/10 rounded-full w-8 h-8 flex items-center justify-center shrink-0 text-brand-green">
+                <i class="fa-solid fa-info"></i>
+            </div>
+            <div class="flex-1">
+                <h4 class="font-bold text-sm">Testing is active</h4>
+                <p class="text-xs text-gray-400 mt-1">Your campaign for "My Awesome App" is running smoothly on Day 4.</p>
+            </div>
+            <button @click="showBottomBanner = false" class="text-gray-500 hover:text-white transition-colors">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
