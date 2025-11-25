@@ -49,13 +49,21 @@
         function adminData() {
             return {
                 sidebarOpen: false,
-                currentTab: 'dashboard', // dashboard, orders, testers, revenue, payouts, support, clients
+                currentTab: 'dashboard', // dashboard, orders, testers, revenue, payouts, support, clients, admin_profile
                 showModal: false,
                 selectedOrder: null,
                 notificationsOpen: false,
                 quickActionsOpen: false,
                 orderFilter: 'All',
                 
+                // Admin Profile Data
+                adminUser: {
+                    name: 'Super Admin',
+                    email: 'admin@12testers14days.com',
+                    role: 'Owner',
+                    avatar: 'https://ui-avatars.com/api/?name=Super+Admin&background=random'
+                },
+
                 // KPI Data
                 stats: {
                     revenue: '$12,450',
@@ -130,6 +138,10 @@
                         this.selectedOrder.status = status;
                         this.showModal = false;
                     }
+                },
+
+                saveProfile() {
+                    alert('Profile settings saved successfully.');
                 },
 
                 initChart() {
@@ -235,16 +247,17 @@
         </nav>
 
         <div class="p-4 border-t border-gray-800">
-            <div class="flex items-center gap-3 px-2">
-                <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white">
-                    <i class="fa-solid fa-user-shield"></i>
+            <a href="#" @click.prevent="currentTab = 'admin_profile'" class="flex items-center gap-3 px-2 group cursor-pointer hover:bg-gray-800 p-2 rounded-lg transition-colors" :class="currentTab === 'admin_profile' ? 'bg-gray-800' : ''">
+                <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white overflow-hidden">
+                    <i class="fa-solid fa-user-shield" x-show="!adminUser.avatar"></i>
+                    <img :src="adminUser.avatar" alt="Admin" class="w-full h-full object-cover" x-show="adminUser.avatar">
                 </div>
                 <div class="flex-grow min-w-0">
-                    <p class="text-sm font-bold text-white">Super Admin</p>
-                    <p class="text-xs text-gray-500">Access Level: Owner</p>
+                    <p class="text-sm font-bold text-white" x-text="adminUser.name">Super Admin</p>
+                    <p class="text-xs text-gray-500" x-text="adminUser.role">Access Level: Owner</p>
                 </div>
-                <button class="text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
-            </div>
+                <i class="fa-solid fa-gear text-gray-500 group-hover:text-white transition-colors"></i>
+            </a>
         </div>
     </aside>
 
@@ -321,6 +334,7 @@
                         <p class="text-sm text-gray-500">Total Revenue</p>
                         <h3 class="text-2xl font-bold text-gray-900" x-text="stats.revenue"></h3>
                     </div>
+                    <!-- ... other stats ... -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                         <div class="flex justify-between items-start mb-2">
                             <div class="p-2 bg-blue-50 text-blue-600 rounded-lg"><i class="fa-brands fa-android"></i></div>
@@ -365,6 +379,69 @@
                         <h3 class="font-bold text-gray-900 mb-4">Order Status</h3>
                         <div class="flex-grow relative h-64 flex items-center justify-center">
                             <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= ADMIN PROFILE VIEW ================= -->
+            <div x-show="currentTab === 'admin_profile'" class="max-w-4xl mx-auto space-y-8" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-gray-900">Admin Profile Settings</h2>
+                    <button @click="currentTab = 'dashboard'" class="text-gray-500 hover:text-gray-700 text-sm font-bold flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <div class="flex flex-col md:flex-row items-start gap-8">
+                        
+                        <!-- Avatar -->
+                        <div class="relative group shrink-0">
+                            <div class="w-32 h-32 rounded-full bg-gray-100 border-4 border-white shadow-md overflow-hidden">
+                                <img :src="adminUser.avatar" alt="Admin" class="w-full h-full object-cover">
+                            </div>
+                            <button class="absolute bottom-2 right-2 bg-white border border-gray-200 p-2 rounded-full text-gray-500 hover:text-brand-green shadow-sm text-sm">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                        </div>
+
+                        <!-- Form -->
+                        <div class="flex-grow w-full space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Display Name</label>
+                                    <input type="text" x-model="adminUser.name" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" x-model="adminUser.email" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green shadow-sm">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Role / Access Level</label>
+                                <input type="text" x-model="adminUser.role" class="w-full rounded-xl border-gray-300 bg-gray-50 text-gray-500 cursor-not-allowed" disabled>
+                                <p class="text-xs text-gray-400 mt-1">Role changes require root access.</p>
+                            </div>
+
+                            <div class="pt-6 border-t border-gray-100">
+                                <h4 class="font-bold text-gray-900 mb-4">Security</h4>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-2">New Password</label>
+                                        <input type="password" placeholder="Leave blank to keep current" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green shadow-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-gray-700 mb-2">Confirm Password</label>
+                                        <input type="password" placeholder="Confirm new password" class="w-full rounded-xl border-gray-300 focus:border-brand-green focus:ring-brand-green shadow-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-4 flex justify-end gap-3">
+                                <button @click="currentTab = 'dashboard'" class="px-6 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:bg-gray-100 transition-colors">Cancel</button>
+                                <button @click="saveProfile()" class="px-6 py-2.5 bg-brand-green text-white rounded-lg text-sm font-bold hover:bg-green-700 shadow-md transition-all transform active:scale-95">Save Changes</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -429,10 +506,9 @@
                 </div>
             </div>
 
-            <!-- ================= OTHER VIEWS (Support, Clients, Testers, Finance) ================= -->
-            <!-- Reusing the code for Support, Clients, Testers, Revenue, Payouts from previous response to maintain completeness -->
+            <!-- ================= OTHER VIEWS ================= -->
+            <!-- Support -->
             <div x-show="currentTab === 'support'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
-                <!-- Support Content -->
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-bold text-gray-900">Support Desk</h2>
                     <div class="flex gap-4 text-sm">
@@ -459,6 +535,7 @@
                 </div>
             </div>
 
+            <!-- Clients -->
             <div x-show="currentTab === 'clients'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                 <div class="flex justify-between items-center"><h2 class="text-2xl font-bold text-gray-900">Client Management</h2></div>
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -481,6 +558,7 @@
                 </div>
             </div>
 
+            <!-- Testers -->
             <div x-show="currentTab === 'testers'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                 <div class="flex justify-between items-center"><h2 class="text-2xl font-bold text-gray-900">Testers Pool</h2></div>
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -502,6 +580,7 @@
                 </div>
             </div>
 
+            <!-- Revenue -->
             <div x-show="currentTab === 'revenue'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                 <h2 class="text-2xl font-bold text-gray-900">Revenue History</h2>
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -509,7 +588,7 @@
                         <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs"><tr><th class="px-6 py-4">User</th><th class="px-6 py-4">Amount</th><th class="px-6 py-4">Date</th></tr></thead>
                         <tbody class="divide-y divide-gray-50">
                             <template x-for="tx in transactions" :key="tx.id">
-                                <tr>
+                                <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 font-bold text-gray-900" x-text="tx.user"></td>
                                     <td class="px-6 py-4 font-bold text-green-600" x-text="tx.amount"></td>
                                     <td class="px-6 py-4 text-gray-500" x-text="tx.date"></td>
@@ -520,6 +599,7 @@
                 </div>
             </div>
 
+            <!-- Payouts -->
             <div x-show="currentTab === 'payouts'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                 <h2 class="text-2xl font-bold text-gray-900">Tester Payouts</h2>
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
