@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - 12 Testers 14 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#01875f', 
+                            dark: '#202124',
+                            light: '#f8f9fa',
+                            accent: '#e8f0fe'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(1, 135, 95, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Logic -->
+    <script>
+        function signupData() {
+            return {
+                step: 1,
+                name: '',
+                email: '',
+                testers: 20, // Default selection
+                loading: false,
+                
+                // Calculation Logic
+                get basePrice() { return 10; },
+                get testerCost() { return this.testers * 5; },
+                get discount() { return (this.basePrice + this.testerCost) * 0.5; },
+                get totalInvestment() { return (this.basePrice + this.testerCost) - this.discount; },
+
+                nextStep() {
+                    this.step = 2;
+                },
+
+                submitSignup() {
+                    if (!this.name || !this.email) return alert('Please fill in all fields.');
+                    
+                    this.loading = true;
+                    
+                    // Simulate API Delay
+                    setTimeout(() => {
+                        this.loading = false;
+                        // Store selection for the payment page
+                        localStorage.setItem('selectedTesters', this.testers);
+                        localStorage.setItem('userEmail', this.email);
+                        // Redirect to Payment
+                        window.location.href = 'payment.html'; 
+                    }, 1000);
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .pattern-bg {
+            background-color: #f8f9fa;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Slider Styling */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #01875f;
+            cursor: pointer;
+            margin-top: -10px; 
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 1), 0 0 10px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #4b5563;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 pattern-bg antialiased min-h-screen flex flex-col" x-data="signupData()">
+
+    <!-- Simple Header -->
+    <header class="w-full py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="index.html" class="inline-flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-brand-green rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                    <i class="fa-brands fa-android text-xl"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-gray-900">12Testers<span class="text-brand-green">14Days</span></span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <div class="w-full max-w-md relative">
+            
+            <!-- Guided Experience Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Get Production Ready</h1>
+                <p class="text-sm text-gray-500 mt-2">Follow this simple guide to meet Google's requirements.</p>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="flex items-center justify-between mb-8 px-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors" 
+                         :class="step >= 1 ? 'bg-brand-green text-white' : 'bg-gray-200 text-gray-500'">1</div>
+                    <span class="text-sm font-medium" :class="step >= 1 ? 'text-brand-green' : 'text-gray-400'">Plan</span>
+                </div>
+                <div class="flex-grow h-1 bg-gray-200 mx-4 rounded-full overflow-hidden">
+                    <div class="h-full bg-brand-green transition-all duration-500 ease-out" :style="'width: ' + (step === 1 ? '50%' : '100%')"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors"
+                         :class="step === 2 ? 'bg-brand-green text-white' : 'bg-gray-200 text-gray-500'">2</div>
+                    <span class="text-sm font-medium" :class="step === 2 ? 'text-brand-green' : 'text-gray-400'">Details</span>
+                </div>
+            </div>
+
+            <!-- STEP 1: Plan Configuration (Dark Mode) -->
+            <div x-show="step === 1" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform -translate-x-8"
+                 x-transition:enter-end="opacity-100 transform translate-x-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 transform translate-x-0"
+                 x-transition:leave-end="opacity-0 transform -translate-x-8"
+                 class="bg-gray-900 text-white rounded-2xl shadow-xl p-8 relative overflow-hidden">
+                
+                <!-- Background Glow -->
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-brand-green opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <span class="text-brand-green font-bold text-xs uppercase tracking-wider mb-1 block">Step 1 of 2</span>
+                <h2 class="text-2xl font-bold mb-2">Choose Your Team Size</h2>
+                <p class="text-gray-400 text-sm mb-8">How many testers do you need to reach 20?</p>
+                
+                <!-- Quick Selects -->
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <button @click="testers = 12" :class="testers === 12 ? 'bg-brand-green border-brand-green text-white' : 'border-gray-600 text-gray-400 hover:border-gray-400'" class="border px-3 py-1.5 rounded-full text-xs font-medium transition-all">Gap Filler (12)</button>
+                    <button @click="testers = 20" :class="testers === 20 ? 'bg-brand-green border-brand-green text-white' : 'border-gray-600 text-gray-400 hover:border-gray-400'" class="border px-3 py-1.5 rounded-full text-xs font-medium transition-all">Standard (20)</button>
+                    <button @click="testers = 25" :class="testers === 25 ? 'bg-brand-green border-brand-green text-white' : 'border-gray-600 text-gray-400 hover:border-gray-400'" class="border px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1">Safe Mode (25) <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i></button>
+                </div>
+
+                <!-- Slider -->
+                <div class="mb-10">
+                    <div class="flex justify-between items-end mb-4">
+                        <label class="text-sm text-gray-400 font-medium">Testers Needed</label>
+                        <span class="text-4xl font-bold text-white" x-text="testers"></span>
+                    </div>
+                    <input type="range" min="1" max="25" step="1" x-model.number="testers" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer focus:outline-none">
+                    <div class="flex justify-between text-xs text-gray-500 mt-3 font-mono">
+                        <span>1 Tester</span>
+                        <span>25 Testers</span>
+                    </div>
+                </div>
+
+                <!-- Breakdown -->
+                <div class="space-y-3 border-t border-gray-700 pt-6 mb-8">
+                    <div class="flex justify-between text-sm text-gray-400">
+                        <span>Base Price</span>
+                        <span x-text="'$' + basePrice.toFixed(2)"></span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-400">
+                        <span>Testers Cost ($5 x <span x-text="testers"></span>)</span>
+                        <span x-text="'$' + testerCost.toFixed(2)"></span>
+                    </div>
+                    <div class="flex justify-between text-sm text-brand-green font-medium">
+                        <span>Discount (50% OFF)</span>
+                        <span x-text="'-$' + discount.toFixed(2)"></span>
+                    </div>
+                </div>
+
+                <!-- Action -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400">Total</p>
+                        <p class="text-2xl font-bold text-white" x-text="'$' + totalInvestment.toFixed(2)"></p>
+                    </div>
+                    <button @click="nextStep()" class="bg-white text-gray-900 font-bold py-3 px-6 rounded-xl shadow hover:bg-gray-100 transition-colors flex items-center gap-2">
+                        Next Step <i class="fa-solid fa-arrow-right text-brand-green"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Details (Light Mode) -->
+            <div x-show="step === 2" x-cloak
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform translate-x-8"
+                 x-transition:enter-end="opacity-100 transform translate-x-0"
+                 class="bg-white rounded-2xl shadow-soft border border-gray-100 p-8 relative">
+                
+                <button @click="step = 1" class="absolute top-8 left-8 text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </button>
+
+                <div class="text-center mb-8 mt-2">
+                    <span class="text-brand-green font-bold text-xs uppercase tracking-wider mb-1 block">Step 2 of 2</span>
+                    <h1 class="text-xl font-bold text-gray-900">Create Developer Profile</h1>
+                    <p class="text-sm text-gray-500 mt-1">Secure your spot and proceed to checkout.</p>
+                </div>
+
+                <!-- Registration Form -->
+                <form @submit.prevent="submitSignup()" class="space-y-5">
+                    
+                    <!-- Plan Summary Pill -->
+                    <div class="bg-green-50 border border-green-100 rounded-lg p-3 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-brand-green border border-green-100">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-medium">Selected Plan</p>
+                                <p class="text-sm font-bold text-gray-800"><span x-text="testers"></span> Testers Plan</p>
+                            </div>
+                        </div>
+                        <p class="font-bold text-brand-green" x-text="'$' + totalInvestment.toFixed(2)"></p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <input type="text" x-model="name" class="pl-10 block w-full rounded-xl border-gray-300 bg-gray-50 focus:bg-white focus:border-brand-green focus:ring-brand-green sm:text-sm py-3 transition-colors" placeholder="John Developer" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <input type="email" x-model="email" class="pl-10 block w-full rounded-xl border-gray-300 bg-gray-50 focus:bg-white focus:border-brand-green focus:ring-brand-green sm:text-sm py-3 transition-colors" placeholder="developer@example.com" required>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-1 ml-1">Use your Play Console email for faster verification.</p>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" :disabled="loading" class="w-full bg-brand-green text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-green-700 hover:shadow-xl transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                            <span x-show="!loading">Continue to Payment</span>
+                            <span x-show="!loading"><i class="fa-solid fa-lock"></i></span>
+                            <span x-show="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing...</span>
+                        </button>
+                        <p class="text-center text-[11px] text-gray-400 mt-3">
+                            By continuing, you agree to our <a href="#" class="text-gray-600 hover:underline">Terms</a> & <a href="#" class="text-gray-600 hover:underline">Privacy Policy</a>.
+                        </p>
+                    </div>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-xs text-gray-400">
+                        Already have an account? <a href="login.html" class="text-brand-green font-bold hover:underline">Sign In</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-xs text-gray-400">
+        <p>&copy; 2025 12Testers14Days.com.</p>
+    </footer>
+
+</body>
+</html>
