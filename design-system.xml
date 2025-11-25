@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DesignSystem project="12 Testers 14 Days Redesign" version="2.0">
+
+    <!-- CORE IDENTITY -->
+    <Identity>
+        <Typography>
+            <PrimaryFont source="Google Fonts">Plus Jakarta Sans</PrimaryFont>
+            <Weights>
+                <Weight value="400">Regular</Weight>
+                <Weight value="500">Medium</Weight>
+                <Weight value="600">SemiBold</Weight>
+                <Weight value="700">Bold</Weight>
+                <Weight value="800">ExtraBold</Weight>
+            </Weights>
+            <Usage>
+                <Headlines>Bold/ExtraBold, Tight Tracking</Headlines>
+                <Body>Regular, Relaxed Line Height</Body>
+                <UIElements>Medium/SemiBold (Buttons, Nav)</UIElements>
+            </Usage>
+        </Typography>
+
+        <ColorPalette>
+            <BrandColors>
+                <Color name="Brand Green" hex="#01875f" usage="Primary Action, Logo, Success States" note="Google Play Console Green"/>
+                <Color name="Brand Dark" hex="#202124" usage="Headings, Footer Background"/>
+                <Color name="Brand Light" hex="#f8f9fa" usage="Section Backgrounds"/>
+                <Color name="Accent Blue" hex="#e8f0fe" usage="Highlight Backgrounds"/>
+            </BrandColors>
+            <FunctionalColors>
+                <Color name="Error Red" hex="#ef4444" usage="Rejection scenarios, Errors"/>
+                <Color name="Success Green" hex="#01875f" usage="Checkmarks, Approval badges"/>
+                <Color name="Warning Yellow" hex="#facc15" usage="Stars, Bonus highlights"/>
+                <Color name="Text Gray" hex="#4b5563" usage="Body text"/>
+            </FunctionalColors>
+        </ColorPalette>
+    </Identity>
+
+    <!-- UI COMPONENTS -->
+    <Components>
+        <Buttons>
+            <Style type="Primary">
+                <Background>#01875f (Brand Green)</Background>
+                <Text>White</Text>
+                <BorderRadius>Rounded-xl</BorderRadius>
+                <Effects>Shadow-lg, Shadow-Glow on Hover, Translate-Y -1px</Effects>
+            </Style>
+            <Style type="Secondary">
+                <Background>White</Background>
+                <Text>Gray-700</Text>
+                <Border>Gray-200</Border>
+                <Effects>Hover: Gray-50 background</Effects>
+            </Style>
+        </Buttons>
+
+        <Cards>
+            <Style type="Feature">
+                <Background>White or Gray-50</Background>
+                <Border>Gray-100</Border>
+                <CornerRadius>Rounded-2xl</CornerRadius>
+                <Interaction>Hover: Shadow-lg, Scale Icon, Translate-Y</Interaction>
+            </Style>
+            <Style type="Glass">
+                <Class>glass-card</Class>
+                <Properties>Backdrop-blur(10px), White opacity 0.9, Border white opacity 0.2</Properties>
+            </Style>
+        </Cards>
+
+        <Inputs>
+            <Slider>
+                <Thumb>Custom Webkit appearance, #01875f, 24px circle, White border</Thumb>
+                <Track>Gray-700 background (in dark mode sections)</Track>
+            </Slider>
+        </Inputs>
+    </Components>
+
+    <!-- UX PRINCIPLES -->
+    <UXPrinciples>
+        <TrustBuilding>
+            <Element>Social Proof (Wall of Love / Testimonials)</Element>
+            <Element>Guarantee Modals (Refund Policy accessible without page reload)</Element>
+            <Element>Visual Cues (Padlock icons, "Real Devices" badges)</Element>
+        </TrustBuilding>
+
+        <ClarityAndReduction>
+            <Strategy>Smart Defaults (Calculator pre-sets for 12, 20, 25)</Strategy>
+            <Strategy>Visual Hierarchy (Price calculation updates instantly)</Strategy>
+            <Strategy>Jargon Reduction ("Gap Filler" vs "Partial Service")</Strategy>
+        </ClarityAndReduction>
+
+        <ValueStacking>
+            <Technique>Bonuses Section (Adding "Free" value before asking for payment)</Technique>
+            <Technique>Comparison Table (Us vs Them to anchor value)</Technique>
+        </ValueStacking>
+
+        <Responsiveness>
+            <Mobile>Hidden menus behind hamburger toggle</Mobile>
+            <Desktop>Sticky header with backdrop blur</Desktop>
+            <Layout>Stack-to-Grid transitions on breakpoints</Layout>
+        </Responsiveness>
+    </UXPrinciples>
+
+    <!-- INTERACTION DESIGN -->
+    <Interactions framework="Alpine.js">
+        <StateManagement>
+            <Variable name="testers">Controls slider and pricing math dynamically</Variable>
+            <Variable name="scrolled">Toggles navbar padding and shadow on scroll</Variable>
+            <Variable name="mobileMenuOpen">Toggles mobile drawer visibility</Variable>
+            <Variable name="showModal">Manages visibility of Refund/About overlays</Variable>
+        </StateManagement>
+        
+        <Animations>
+            <Library>TailwindCSS standard transitions</Library>
+            <Specifics>
+                <Hover>Scale-105 on icons, Translate-Y on cards</Hover>
+                <Pulse>Used on "Updated for 2025" badge and "Total Bonus Value"</Pulse>
+                <Fade>Transition opacity on mobile menu</Fade>
+            </Specifics>
+        </Animations>
+    </Interactions>
+
+</DesignSystem>
