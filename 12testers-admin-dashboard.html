@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - 12 Testers 14 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#01875f', 
+                            dark: '#1a1c23',
+                            light: '#f3f4f6',
+                            accent: '#e8f0fe',
+                            warning: '#f59e0b',
+                            danger: '#ef4444'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js Logic -->
+    <script>
+        function adminData() {
+            return {
+                sidebarOpen: false,
+                currentTab: 'dashboard', // dashboard, orders, testers, revenue, payouts, support, clients
+                showModal: false,
+                selectedOrder: null,
+                notificationsOpen: false,
+                quickActionsOpen: false,
+                orderFilter: 'All',
+                
+                // KPI Data
+                stats: {
+                    revenue: '$12,450',
+                    revenueTrend: '+12%',
+                    activeApps: 42,
+                    pendingStart: 5,
+                    testersAvailable: 150
+                },
+
+                // Mock Notifications
+                notifications: [
+                    { title: 'New Order #8493', desc: 'Received $55.00 from Jane Doe', time: '5m ago', type: 'success' },
+                    { title: 'Server Load High', desc: 'CPU usage at 85%', time: '1h ago', type: 'warning' },
+                    { title: 'Tester Report', desc: 'Daily engagement summary ready', time: '2h ago', type: 'info' }
+                ],
+
+                // Mock Orders
+                orders: [
+                    { id: '#8492', user: 'John Developer', app: 'Super Todo', plan: '20 Testers', price: '$55.00', status: 'Pending', date: '2 mins ago' },
+                    { id: '#8491', user: 'Sarah Smith', app: 'Fitness Pro', plan: '12 Testers', price: '$35.00', status: 'Active', date: '2 hours ago' },
+                    { id: '#8490', user: 'Mike Ross', app: 'Legal Ease', plan: '20 Testers', price: '$55.00', status: 'Completed', date: '1 day ago' },
+                    { id: '#8489', user: 'Emma Watson', app: 'Wand Waver', plan: '25 Testers', price: '$70.00', status: 'Active', date: '1 day ago' },
+                    { id: '#8488', user: 'Bruce Wayne', app: 'Bat Tracker', plan: '20 Testers', price: '$55.00', status: 'Issue', date: '2 days ago' },
+                    { id: '#8487', user: 'Clark Kent', app: 'News Daily', plan: '20 Testers', price: '$55.00', status: 'Completed', date: '3 days ago' },
+                ],
+
+                // Mock Testers
+                testers: [
+                    { id: 'T-101', name: 'Alice M.', device: 'Pixel 7', androidVer: '13', jobs: 4, rating: 4.9, status: 'Online' },
+                    { id: 'T-102', name: 'Bob D.', device: 'Samsung S23', androidVer: '14', jobs: 2, rating: 4.5, status: 'Offline' },
+                    { id: 'T-103', name: 'Charlie H.', device: 'OnePlus 11', androidVer: '13', jobs: 5, rating: 5.0, status: 'Online' },
+                ],
+
+                // Mock Clients (CRM)
+                clients: [
+                    { id: 'C-001', name: 'John Developer', email: 'john@dev.com', apps: 3, spend: '$165.00', status: 'Active' },
+                    { id: 'C-002', name: 'Sarah Smith', email: 'sarah@fit.io', apps: 1, spend: '$35.00', status: 'Active' },
+                    { id: 'C-003', name: 'Bad Actor', email: 'spam@bot.net', apps: 0, spend: '$0.00', status: 'Banned' },
+                ],
+
+                // Mock Support Tickets
+                tickets: [
+                    { id: '#TK-902', user: 'John Developer', subject: 'App Rejected by Google', channel: 'Email', status: 'Open', time: '10 mins ago' },
+                    { id: '#TK-901', user: 'Sarah Smith', subject: 'Testers not showing up', channel: 'WhatsApp', status: 'Replied', time: '1 hour ago' },
+                    { id: '#TK-899', user: 'Mike Ross', subject: 'Invoice request', channel: 'Email', status: 'Closed', time: '1 day ago' },
+                ],
+
+                // Mock Revenue
+                transactions: [
+                    { id: 'TRX-998', user: 'John Developer', amount: '$55.00', type: 'Sale', date: 'Nov 24, 10:30 AM', status: 'Success' },
+                    { id: 'TRX-997', user: 'Sarah Smith', amount: '$35.00', type: 'Sale', date: 'Nov 24, 08:15 AM', status: 'Success' },
+                ],
+
+                // Mock Payouts
+                payouts: [
+                    { id: 'PO-401', tester: 'Alice M.', amount: '$150.00', method: 'PayPal', date: 'Nov 20', status: 'Paid' },
+                    { id: 'PO-403', tester: 'Bob D.', amount: '$85.00', method: 'PayPal', date: 'Pending', status: 'Processing' },
+                ],
+
+                get filteredOrders() {
+                    if (this.orderFilter === 'All') return this.orders;
+                    return this.orders.filter(order => order.status === this.orderFilter);
+                },
+
+                openOrder(order) {
+                    this.selectedOrder = order;
+                    this.showModal = true;
+                },
+                
+                updateStatus(status) {
+                    if(this.selectedOrder) {
+                        this.selectedOrder.status = status;
+                        this.showModal = false;
+                    }
+                },
+
+                initChart() {
+                    setTimeout(() => {
+                        // Revenue Chart
+                        const ctx1 = document.getElementById('revenueChart');
+                        if (ctx1) {
+                            new Chart(ctx1.getContext('2d'), {
+                                type: 'line',
+                                data: {
+                                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                                    datasets: [{
+                                        label: 'Revenue',
+                                        data: [1200, 1900, 1500, 2200, 1800, 2500, 3100],
+                                        borderColor: '#01875f',
+                                        backgroundColor: 'rgba(1, 135, 95, 0.1)',
+                                        tension: 0.4,
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { display: false } },
+                                    scales: {
+                                        y: { beginAtZero: true, grid: { display: false } },
+                                        x: { grid: { display: false } }
+                                    }
+                                }
+                            });
+                        }
+
+                        // Status Distribution Chart
+                        const ctx2 = document.getElementById('statusChart');
+                        if (ctx2) {
+                            new Chart(ctx2.getContext('2d'), {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ['Active', 'Pending', 'Completed', 'Issue'],
+                                    datasets: [{
+                                        data: [45, 15, 30, 10],
+                                        backgroundColor: ['#01875f', '#f59e0b', '#3b82f6', '#ef4444'],
+                                        borderWidth: 0
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { 
+                                        legend: { position: 'right', labels: { boxWidth: 10, usePointStyle: true } } 
+                                    },
+                                    cutout: '70%'
+                                }
+                            });
+                        }
+                    }, 100);
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-100 antialiased h-screen flex overflow-hidden" x-data="adminData()" x-init="initChart()">
+
+    <!-- Sidebar -->
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-64 bg-brand-dark text-gray-400 transition-transform duration-300 lg:relative lg:translate-x-0 flex flex-col shadow-2xl">
+        
+        <div class="h-16 flex items-center px-6 border-b border-gray-800">
+            <div class="w-8 h-8 bg-brand-green rounded-lg flex items-center justify-center text-white shadow-sm mr-2">
+                <i class="fa-solid fa-shield-dog"></i>
+            </div>
+            <span class="font-bold text-white tracking-tight">Admin<span class="text-brand-green">Portal</span></span>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <p class="px-4 text-xs font-bold text-gray-600 uppercase tracking-wider mb-2 mt-2">Operations</p>
+            
+            <a href="#" @click.prevent="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-gauge-high w-5 text-center"></i> Dashboard
+            </a>
+            <a href="#" @click.prevent="currentTab = 'orders'" :class="currentTab === 'orders' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-cart-shopping w-5 text-center"></i> Orders
+                <span class="bg-brand-green text-white text-[10px] font-bold px-2 py-0.5 rounded-full ml-auto">5</span>
+            </a>
+            <a href="#" @click.prevent="currentTab = 'testers'" :class="currentTab === 'testers' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-users-gear w-5 text-center"></i> Testers Pool
+            </a>
+            <a href="#" @click.prevent="currentTab = 'support'" :class="currentTab === 'support' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-headset w-5 text-center"></i> Support Tickets
+                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full ml-auto">3</span>
+            </a>
+            <a href="#" @click.prevent="currentTab = 'clients'" :class="currentTab === 'clients' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-user-group w-5 text-center"></i> Clients
+            </a>
+            
+            <p class="px-4 text-xs font-bold text-gray-600 uppercase tracking-wider mb-2 mt-6">Finance</p>
+            <a href="#" @click.prevent="currentTab = 'revenue'" :class="currentTab === 'revenue' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-wallet w-5 text-center"></i> Revenue
+            </a>
+            <a href="#" @click.prevent="currentTab = 'payouts'" :class="currentTab === 'payouts' ? 'bg-gray-800 text-white' : 'hover:bg-gray-800 hover:text-white'" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors">
+                <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i> Payouts
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-800">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="flex-grow min-w-0">
+                    <p class="text-sm font-bold text-white">Super Admin</p>
+                    <p class="text-xs text-gray-500">Access Level: Owner</p>
+                </div>
+                <button class="text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50">
+        
+        <!-- Top Header -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-30">
+            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden text-gray-500"><i class="fa-solid fa-bars text-xl"></i></button>
+            
+            <!-- Search Bar -->
+            <div class="flex items-center gap-4 ml-auto">
+                <div class="relative hidden md:block">
+                    <input type="text" placeholder="Global search..." class="pl-10 pr-4 py-2 rounded-lg bg-gray-100 border-none text-sm w-64 focus:ring-2 focus:ring-brand-green transition-all">
+                    <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                </div>
+                
+                <!-- Quick Actions Button -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="bg-brand-dark text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Add New Tester</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Create Order</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Broadcast Message</a>
+                    </div>
+                </div>
+
+                <div class="h-6 w-px bg-gray-200 mx-2"></div>
+                
+                <!-- Notifications -->
+                <div class="relative">
+                    <button @click="notificationsOpen = !notificationsOpen" class="relative text-gray-400 hover:text-gray-600 transition-colors">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
+                    
+                    <div x-show="notificationsOpen" @click.away="notificationsOpen = false" class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-50 origin-top-right">
+                        <div class="px-4 py-3 border-b border-gray-100 font-bold text-gray-900 text-sm">Notifications</div>
+                        <div class="max-h-64 overflow-y-auto">
+                            <template x-for="note in notifications">
+                                <div class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors last:border-0 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-2 h-2 rounded-full mt-1.5 shrink-0" :class="{'bg-green-500': note.type === 'success', 'bg-yellow-500': note.type === 'warning', 'bg-blue-500': note.type === 'info'}"></div>
+                                        <div>
+                                            <p class="text-sm font-bold text-gray-800" x-text="note.title"></p>
+                                            <p class="text-xs text-gray-500 mt-0.5" x-text="note.desc"></p>
+                                            <p class="text-[10px] text-gray-400 mt-1" x-text="note.time"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Scroll -->
+        <div class="flex-1 overflow-y-auto p-6 lg:p-8">
+            
+            <!-- ================= DASHBOARD VIEW ================= -->
+            <div x-show="currentTab === 'dashboard'" class="space-y-8" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <h2 class="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- KPI Cards -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="p-2 bg-green-50 text-brand-green rounded-lg"><i class="fa-solid fa-dollar-sign"></i></div>
+                            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">+12%</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Total Revenue</p>
+                        <h3 class="text-2xl font-bold text-gray-900" x-text="stats.revenue"></h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="p-2 bg-blue-50 text-blue-600 rounded-lg"><i class="fa-brands fa-android"></i></div>
+                        </div>
+                        <p class="text-sm text-gray-500">Active Campaigns</p>
+                        <h3 class="text-2xl font-bold text-gray-900" x-text="stats.activeApps"></h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-orange-400 opacity-10 rounded-bl-full"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="p-2 bg-orange-50 text-orange-600 rounded-lg"><i class="fa-solid fa-hourglass-half"></i></div>
+                            <span class="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full animate-pulse">Action</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Pending Start</p>
+                        <h3 class="text-2xl font-bold text-gray-900" x-text="stats.pendingStart"></h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="p-2 bg-purple-50 text-purple-600 rounded-lg"><i class="fa-solid fa-users"></i></div>
+                            <span class="text-xs text-gray-400">of 500 total</span>
+                        </div>
+                        <p class="text-sm text-gray-500">Available Testers</p>
+                        <h3 class="text-2xl font-bold text-gray-900" x-text="stats.testersAvailable"></h3>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Revenue Chart (2/3) -->
+                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-gray-900">Revenue Trend</h3>
+                            <select class="text-xs bg-gray-50 border-none rounded-lg px-2 py-1 text-gray-500"><option>Last 7 Days</option></select>
+                        </div>
+                        <div class="flex-grow relative h-64">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Status Distribution (1/3) -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="font-bold text-gray-900 mb-4">Order Status</h3>
+                        <div class="flex-grow relative h-64 flex items-center justify-center">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= ORDERS VIEW ================= -->
+            <div x-show="currentTab === 'orders'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-gray-900">Order Management</h2>
+                    <div class="flex gap-2">
+                        <!-- Status Filter -->
+                        <select x-model="orderFilter" class="text-sm border-gray-200 rounded-lg bg-white px-3 py-2 focus:ring-brand-green focus:border-brand-green">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Active">Active</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Issue">Issue</option>
+                        </select>
+                        <input type="text" placeholder="Filter orders..." class="text-sm border-gray-200 rounded-lg bg-white px-3 py-2 focus:ring-brand-green focus:border-brand-green">
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs">
+                            <tr>
+                                <th class="px-6 py-4">ID</th>
+                                <th class="px-6 py-4">Client</th>
+                                <th class="px-6 py-4">Service Plan</th>
+                                <th class="px-6 py-4">Total</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <template x-for="order in filteredOrders" :key="order.id">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="order.id"></td>
+                                    <td class="px-6 py-4">
+                                        <p class="font-medium text-gray-900" x-text="order.user"></p>
+                                        <p class="text-xs text-gray-500" x-text="order.app"></p>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-600" x-text="order.plan"></td>
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="order.price"></td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 rounded-full text-xs font-bold" :class="{'bg-yellow-100 text-yellow-700': order.status === 'Pending', 'bg-green-100 text-green-700': order.status === 'Active', 'bg-gray-100 text-gray-600': order.status === 'Completed', 'bg-red-100 text-red-700': order.status === 'Issue'}" x-text="order.status"></span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button @click="openOrder(order)" class="text-blue-600 hover:text-blue-800 text-xs font-bold uppercase">Manage</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Showing 1-6 of 42</span>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 rounded border border-gray-300 bg-white text-gray-600 text-xs hover:bg-gray-50">Previous</button>
+                            <button class="px-3 py-1 rounded border border-gray-300 bg-white text-gray-600 text-xs hover:bg-gray-50">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OTHER VIEWS (Support, Clients, Testers, Finance) ================= -->
+            <!-- Reusing the code for Support, Clients, Testers, Revenue, Payouts from previous response to maintain completeness -->
+            <div x-show="currentTab === 'support'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <!-- Support Content -->
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-gray-900">Support Desk</h2>
+                    <div class="flex gap-4 text-sm">
+                        <div class="bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm"><span class="font-bold text-gray-900">3</span> Open</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs">
+                            <tr><th class="px-6 py-4">Ticket</th><th class="px-6 py-4">User</th><th class="px-6 py-4">Subject</th><th class="px-6 py-4">Status</th><th class="px-6 py-4">Action</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <template x-for="ticket in tickets" :key="ticket.id">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-mono text-xs text-gray-500" x-text="ticket.id"></td>
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="ticket.user"></td>
+                                    <td class="px-6 py-4 text-gray-600" x-text="ticket.subject"></td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-bold" :class="{'bg-red-100 text-red-700': ticket.status === 'Open', 'bg-blue-100 text-blue-700': ticket.status === 'Replied', 'bg-gray-100 text-gray-500': ticket.status === 'Closed'}" x-text="ticket.status"></span></td>
+                                    <td class="px-6 py-4"><button class="bg-brand-dark text-white px-3 py-1 rounded text-xs hover:bg-gray-800">Reply</button></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div x-show="currentTab === 'clients'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <div class="flex justify-between items-center"><h2 class="text-2xl font-bold text-gray-900">Client Management</h2></div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs">
+                            <tr><th class="px-6 py-4">User</th><th class="px-6 py-4">Email</th><th class="px-6 py-4">Spend</th><th class="px-6 py-4">Status</th><th class="px-6 py-4">Actions</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <template x-for="client in clients" :key="client.id">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="client.name"></td>
+                                    <td class="px-6 py-4 text-gray-500" x-text="client.email"></td>
+                                    <td class="px-6 py-4 font-bold text-brand-green" x-text="client.spend"></td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-bold" :class="client.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'" x-text="client.status"></span></td>
+                                    <td class="px-6 py-4 flex gap-2"><button class="text-gray-400 hover:text-blue-600"><i class="fa-solid fa-arrow-right-to-bracket"></i></button></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div x-show="currentTab === 'testers'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <div class="flex justify-between items-center"><h2 class="text-2xl font-bold text-gray-900">Testers Pool</h2></div>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs">
+                            <tr><th class="px-6 py-4">Name</th><th class="px-6 py-4">Device</th><th class="px-6 py-4">Jobs</th><th class="px-6 py-4">Status</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <template x-for="tester in testers" :key="tester.id">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="tester.name"></td>
+                                    <td class="px-6 py-4 text-gray-600" x-text="tester.device"></td>
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="tester.jobs"></td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700" x-text="tester.status"></span></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div x-show="currentTab === 'revenue'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <h2 class="text-2xl font-bold text-gray-900">Revenue History</h2>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs"><tr><th class="px-6 py-4">User</th><th class="px-6 py-4">Amount</th><th class="px-6 py-4">Date</th></tr></thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <template x-for="tx in transactions" :key="tx.id">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="tx.user"></td>
+                                    <td class="px-6 py-4 font-bold text-green-600" x-text="tx.amount"></td>
+                                    <td class="px-6 py-4 text-gray-500" x-text="tx.date"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div x-show="currentTab === 'payouts'" class="space-y-6" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                <h2 class="text-2xl font-bold text-gray-900">Tester Payouts</h2>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider text-xs"><tr><th class="px-6 py-4">Tester</th><th class="px-6 py-4">Amount</th><th class="px-6 py-4">Status</th></tr></thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <template x-for="po in payouts" :key="po.id">
+                                <tr>
+                                    <td class="px-6 py-4 font-bold text-gray-900" x-text="po.tester"></td>
+                                    <td class="px-6 py-4 font-bold" x-text="po.amount"></td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700" x-text="po.status"></span></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div x-show="showModal" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" @click="showModal = false"></div>
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative z-10 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 class="font-bold text-gray-900 text-lg">Order Details <span x-text="selectedOrder?.id" class="text-gray-400 font-normal"></span></h3>
+                <button @click="showModal = false" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="p-6 space-y-4" x-if="selectedOrder">
+                <div class="flex gap-4 items-start">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-brand-green text-2xl"><i class="fa-brands fa-android"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-lg" x-text="selectedOrder?.app"></h4>
+                        <p class="text-sm text-gray-500" x-text="selectedOrder?.user"></p>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Update Status</label>
+                    <div class="flex gap-2">
+                        <button @click="updateStatus('Pending')" class="flex-1 py-2 rounded-lg border text-xs font-bold hover:bg-yellow-50 border-yellow-200 text-yellow-700">Pending</button>
+                        <button @click="updateStatus('Active')" class="flex-1 py-2 rounded-lg border text-xs font-bold hover:bg-green-50 border-green-200 text-green-700">Active</button>
+                        <button @click="updateStatus('Completed')" class="flex-1 py-2 rounded-lg border text-xs font-bold hover:bg-gray-50 border-gray-200 text-gray-700">Complete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
