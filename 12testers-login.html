@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - 12 Testers 14 Days</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            green: '#01875f', 
+                            dark: '#202124',
+                            light: '#f8f9fa',
+                            accent: '#e8f0fe'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(1, 135, 95, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Logic -->
+    <script>
+        function loginData() {
+            return {
+                email: '',
+                password: '',
+                showPassword: false,
+                loading: false,
+                
+                submitLogin() {
+                    if (!this.email || !this.password) return alert('Please enter your email and password.');
+                    
+                    this.loading = true;
+                    
+                    // Simulate API Delay
+                    setTimeout(() => {
+                        this.loading = false;
+                        // Redirect to Dashboard (Simulated)
+                        window.location.href = 'dashboard.html'; 
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .pattern-bg {
+            background-color: #f8f9fa;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 pattern-bg antialiased min-h-screen flex flex-col" x-data="loginData()">
+
+    <!-- Simple Header -->
+    <header class="w-full py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="index.html" class="inline-flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-brand-green rounded-xl flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                    <i class="fa-brands fa-android text-xl"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-gray-900">12Testers<span class="text-brand-green">14Days</span></span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md">
+            
+            <!-- Login Card -->
+            <div class="bg-white rounded-2xl shadow-soft border border-gray-100 p-8 relative overflow-hidden">
+                <!-- Decorative Top Line -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green to-emerald-400"></div>
+
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl font-bold text-gray-900">Welcome Back</h1>
+                    <p class="text-sm text-gray-500 mt-2">Log in to track your testing progress.</p>
+                </div>
+
+                <!-- Google Sign In -->
+                <button class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 font-medium py-3 px-4 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all mb-6">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google Logo">
+                    <span>Sign in with Google</span>
+                </button>
+
+                <div class="relative flex py-2 items-center mb-6">
+                    <div class="flex-grow border-t border-gray-200"></div>
+                    <span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase font-bold tracking-wider">Or continue with</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+
+                <!-- Email Form -->
+                <form @submit.prevent="submitLogin()" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <input type="email" x-model="email" class="pl-10 block w-full rounded-xl border-gray-300 bg-gray-50 focus:bg-white focus:border-brand-green focus:ring-brand-green sm:text-sm py-3 transition-colors" placeholder="developer@example.com" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
+                            <input :type="showPassword ? 'text' : 'password'" x-model="password" class="pl-10 pr-10 block w-full rounded-xl border-gray-300 bg-gray-50 focus:bg-white focus:border-brand-green focus:ring-brand-green sm:text-sm py-3 transition-colors" placeholder="••••••••" required>
+                            
+                            <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer">
+                                <i class="fa-solid" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-end mt-1">
+                            <a href="#" class="text-xs font-medium text-brand-green hover:text-green-700">Forgot password?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" :disabled="loading" class="w-full bg-brand-green text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-green-700 hover:shadow-xl transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                        <span x-show="!loading">Sign In</span>
+                        <span x-show="!loading"><i class="fa-solid fa-arrow-right"></i></span>
+                        <span x-show="loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...</span>
+                    </button>
+                </form>
+
+                <!-- Sign Up Link -->
+                <p class="text-center text-sm text-gray-600 mt-8">
+                    Don't have an account? 
+                    <a href="index.html#pricing" class="font-bold text-brand-green hover:text-green-700 hover:underline">Get Started</a>
+                </p>
+            </div>
+
+            <!-- Social Proof Footer -->
+            <div class="text-center mt-8 max-w-xs mx-auto">
+                <div class="flex justify-center text-yellow-400 text-xs mb-2 space-x-1">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-xs text-gray-500 italic">"The only service that actually got me real daily engagement logs. Approved in 15 days."</p>
+                <p class="text-xs font-bold text-gray-400 mt-1">— Alex, Indie Dev</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-xs text-gray-400">
+        <div class="flex justify-center gap-6 mb-2">
+            <a href="#" class="hover:text-brand-green">Privacy Policy</a>
+            <a href="#" class="hover:text-brand-green">Terms of Service</a>
+            <a href="mailto:support@12testers14days.com" class="hover:text-brand-green">Support</a>
+        </div>
+        <p>&copy; 2025 12Testers14Days.com. Secure Login.</p>
+    </footer>
+
+</body>
+</html>
